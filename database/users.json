@@ -1,0 +1,18 @@
+[{
+  "_id": {
+    "$oid": "66558a6732c43e48f5a24888"
+  },
+  "userName": "Thong",
+  "userPassword": "Thong",
+  "userRoomIds": [],
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66558e0ed4bc4c584aa9ea5f"
+  },
+  "userName": "Quan",
+  "userPassword": "1231231",
+  "userRoomIds": [],
+  "__v": 0
+}]
