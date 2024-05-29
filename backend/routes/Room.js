@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
 
 // Get one 
 router.get('/:id', getRoom ,  async (req, res) => {
-   res.json(res.room)
+    res.json(res.room)
 });
 
 // Create 

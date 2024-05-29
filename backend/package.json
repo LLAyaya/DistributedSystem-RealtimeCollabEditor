@@ -3,14 +3,15 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev" : "nodemon server.js"
+    "dev": "nodemon server.js"
   },
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
     "express": "^4.19.2",
-    "mongoose": "^8.4.0"
+    "mongoose": "^8.4.0",
+    "ws": "^8.17.0"
   },
   "devDependencies": {
     "dotenv": "^16.4.5",
