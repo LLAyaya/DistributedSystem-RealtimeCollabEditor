@@ -1,13 +1,13 @@
 // User
-GET http://localhost:3000/User
+GET http://localhost:5000/User
 
 ###
 
-GET http://localhost:3000/User/66558a6732c43e48f5a24888
+GET http://localhost:5000/User/66558a6732c43e48f5a24888
 
 ###
 
-POST http://localhost:3000/User
+POST http://localhost:5000/User
 Content-Type: application/json
 
 {
@@ -17,7 +17,7 @@ Content-Type: application/json
 
 ###
 
-PATCH http://localhost:3000/User/66558a6732c43e48f5a24888
+PATCH http://localhost:5000/User/66558a6732c43e48f5a24888
 Content-Type: application/json
 
 {
@@ -26,22 +26,22 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:3000/User/66558956ebd1b0ba35d42d2f
+DELETE http://localhost:5000/User/66558956ebd1b0ba35d42d2f
 
 
 ###
 
 //Room
 
-GET http://localhost:3000/Room
+GET http://localhost:5000/Room
 
 ###
 
-GET http://localhost:3000/Room/66559be06275888693d25730
+GET http://localhost:5000/Room/66559be06275888693d25730
 
 ###
 
-POST http://localhost:3000/Room
+POST http://localhost:5000/Room
 Content-Type: application/json
 
 {
@@ -51,7 +51,7 @@ Content-Type: application/json
 
 ###
 
-PATCH http://localhost:3000/Room/66559be06275888693d25730
+PATCH http://localhost:5000/Room/66559be06275888693d25730
 Content-Type: application/json
 
 {
@@ -60,4 +60,4 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:3000/User/66558956ebd1b0ba35d42d2f
+DELETE http://localhost:5000/User/66558956ebd1b0ba35d42d2f
