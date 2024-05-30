@@ -5,11 +5,10 @@ const RoomSchema = new mongoose.Schema({
         type: Number, 
         unique: true, 
         required: true },
-    roomPassword: { 
-        type: String, 
-        required: true },
     roomMembers: [Number],
-    content:"",
+    content: {
+        type: String,
+        required: true },
 });
 
 module.exports = mongoose.model('Room', RoomSchema);

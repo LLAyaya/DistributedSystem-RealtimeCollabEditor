@@ -3,9 +3,8 @@
     "$oid": "66559be06275888693d25730"
   },
   "roomId": 1,
-  "roomPassword": "1231231asda",
   "roomMembers": [],
-  "content":"",
+  "content": "",
   "__v": 0
 },
 {
@@ -13,8 +12,7 @@
     "$oid": "66559c73dba2f269f03dadd7"
   },
   "roomId": 2,
-  "roomPassword": "q3qeqeq",
   "roomMembers": [],
-  "content":"",
+  "content": "",
   "__v": 0
 }]
