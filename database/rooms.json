@@ -5,6 +5,7 @@
   "roomId": 1,
   "roomPassword": "1231231asda",
   "roomMembers": [],
+  "content":"",
   "__v": 0
 },
 {
@@ -14,5 +15,6 @@
   "roomId": 2,
   "roomPassword": "q3qeqeq",
   "roomMembers": [],
+  "content":"",
   "__v": 0
 }]

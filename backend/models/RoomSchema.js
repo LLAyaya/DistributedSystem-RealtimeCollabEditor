@@ -9,6 +9,7 @@ const RoomSchema = new mongoose.Schema({
         type: String, 
         required: true },
     roomMembers: [Number],
+    content:"",
 });
 
 module.exports = mongoose.model('Room', RoomSchema);
