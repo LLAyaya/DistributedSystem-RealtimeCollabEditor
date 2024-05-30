@@ -29,11 +29,25 @@ export const initSocket = async () => {
 
 const rws = await initSocket()
 
-const message = {
-    type: 'log-in',
-    data: {
-        userName: 'TuilaBIBI',
-        userPassword: 'weiwaiweiwai',
+
+function joinRoom(roomId, userId) {
+    const message = {
+        type: 'join-room',
+        data: {
+            roomId: roomId,
+            userId: userId
+        }
     }
+    rws.send(JSON.stringify(message));
 }
-rws.send(JSON.stringify(message))
+
+joinRoom(1,'66558e0ed4bc4c584aa9ea5f')
+
+// const message = {
+//     type: 'log-in',
+//     data: {
+//         userName: 'TuilaBIBI',
+//         userPassword: 'weiwaiweiwai',
+//     }
+// }
+// rws.send(JSON.stringify(message))

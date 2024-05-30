@@ -102,6 +102,73 @@ wss.on('connection', (ws) => {
                     }))
                 }
             break 
+
+            case 'join-room':
+                try {
+                    const room = await Room.findOne({roomId: message.data.roomId}).exec()
+                    const member = await User.findOne({_id: message.data.userId}).exec()
+                    
+                    if (room != null && member != null){   
+                        if(!room.roomMembers.includes(message.data.userId)){
+                            room.roomMembers.push(message.data.userId);
+                            await room.save();
+
+                            if (!member.userRoomIds.includes(message.data.roomId)){
+                                member.userRoomIds.push(message.data.roomId);
+                                await member.save();
+                            }
+
+                            ws.send(JSON.stringify({
+                                type: 'accept',
+                                data: 'Joined room successfully'
+                            }))
+
+                        } else {
+                            ws.send(JSON.stringify({
+                                type: 'deny',
+                                data: 'User already in the room'
+                            }))
+                        }
+                    } else {
+                        ws.send(JSON.stringify({
+                            type: 'deny',
+                            data: 'Room not found'
+                        }))
+                    }
+                } catch (err) {
+                    console.error(err);
+                    ws.send(JSON.stringify({
+                        type: 'deny',
+                        data: 'Join-room failed. Unexpected error from the server. Please try again'
+                    }))
+                }
+                break
+
+            // case 'join-room':
+            //     try {
+            //         const room = await Room.findOne({ roomName: message.data.roomName }).exec();
+            //         if (room) {
+            //             room.members.push(message.data.userId); 
+            //             await room.save();
+
+            //             ws.send(JSON.stringify({
+            //                 type: 'accept',
+            //                 data: 'Joined room successfully'
+            //             }));
+            //         } else {
+            //             ws.send(JSON.stringify({
+            //                 type: 'deny',
+            //                 data: 'Room not found'
+            //             }));
+            //         }
+            //     } catch (err) {
+            //         console.error(err);
+            //         ws.send(JSON.stringify({
+            //             type: 'deny',
+            //             data: 'Error joining room. Please try again'
+            //         }))
+            //     }
+            //     break
         }
         
     });
