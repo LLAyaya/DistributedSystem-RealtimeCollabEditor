@@ -29,6 +29,15 @@ export const initSocket = async () => {
 
 const rws = await initSocket()
 
+function createRoom(roomId) {
+    const message = {
+        type: 'create-room',
+        data: {
+            roomId: roomId 
+        }
+    };
+    rws.send(JSON.stringify(message));
+}
 
 function joinRoom(roomId, userId) {
     const message = {
@@ -41,7 +50,10 @@ function joinRoom(roomId, userId) {
     rws.send(JSON.stringify(message));
 }
 
-joinRoom(1,'66558e0ed4bc4c584aa9ea5f')
+
+createRoom(118749);
+
+// joinRoom(1,'66558e0ed4bc4c584aa9ea5f')
 
 // const message = {
 //     type: 'log-in',

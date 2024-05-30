@@ -102,6 +102,40 @@ wss.on('connection', (ws) => {
                     }))
                 }
             break 
+            
+            case 'create-room':
+                try{
+                    const existedRoom = await Room.findOne({ roomId: message.data.roomId }).exec()
+                    let roomId = message.data.roomId || Math.floor(Math.random() * 1000000);
+                    if (existedRoom == null){
+                        const room = new Room({
+                            roomId,
+                            roomMembers: [],
+                            // content:
+                        })
+                        await room.save();
+
+                        ws.send(JSON.stringify({
+                            type: 'accept',
+                            data: {
+                                message: 'Room created successfully',
+                                roomId: roomId
+                            }
+                        }))
+                    } else {
+                        ws.send(JSON.stringify({
+                            type: 'deny',
+                            data: 'Room already exists'
+                        }))
+                    }
+                } catch (err) {
+                    console.error(err);
+                    ws.send(JSON.stringify({
+                        type: 'deny',
+                        data: 'Create-room failed. Unexpected error from the server. Please try again'
+                    }))
+                }
+            break
 
             case 'join-room':
                 try {
@@ -143,32 +177,6 @@ wss.on('connection', (ws) => {
                     }))
                 }
                 break
-
-            // case 'join-room':
-            //     try {
-            //         const room = await Room.findOne({ roomName: message.data.roomName }).exec();
-            //         if (room) {
-            //             room.members.push(message.data.userId); 
-            //             await room.save();
-
-            //             ws.send(JSON.stringify({
-            //                 type: 'accept',
-            //                 data: 'Joined room successfully'
-            //             }));
-            //         } else {
-            //             ws.send(JSON.stringify({
-            //                 type: 'deny',
-            //                 data: 'Room not found'
-            //             }));
-            //         }
-            //     } catch (err) {
-            //         console.error(err);
-            //         ws.send(JSON.stringify({
-            //             type: 'deny',
-            //             data: 'Error joining room. Please try again'
-            //         }))
-            //     }
-            //     break
         }
         
     });
