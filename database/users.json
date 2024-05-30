@@ -13,6 +13,18 @@
   },
   "userName": "Quan",
   "userPassword": "1231231",
+  "userRoomIds": [
+    1,
+    186589
+  ],
+  "__v": 2
+},
+{
+  "_id": {
+    "$oid": "6658279f58295b146a2fefac"
+  },
+  "userName": "TuilaBIBI",
+  "userPassword": "weiwaiweiwai",
   "userRoomIds": [],
   "__v": 0
 }]

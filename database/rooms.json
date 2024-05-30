@@ -1,18 +1,82 @@
 [{
   "_id": {
+    "$oid": "66559c73dba2f269f03dadd7"
+  },
+  "roomId": 2,
+  "roomPassword": "q3qeqeq",
+  "roomMembers": [
+    {
+      "$oid": "66558a6732c43e48f5a24888"
+    },
+    {
+      "$oid": "66558e0ed4bc4c584aa9ea5f"
+    },
+    {
+      "$oid": "6658279f58295b146a2fefac"
+    }
+  ],
+  "__v": 3
+},
+{
+  "_id": {
     "$oid": "66559be06275888693d25730"
   },
   "roomId": 1,
+  "roomPassword": "1231231asda",
+  "roomMembers": [
+    {
+      "$oid": "6658279f58295b146a2fefac"
+    },
+    {
+      "$oid": "66558a6732c43e48f5a24888"
+    },
+    {
+      "$oid": "66558e0ed4bc4c584aa9ea5f"
+    }
+  ],
+  "__v": 3
+},
+{
+  "_id": {
+    "$oid": "6658a3a5226e87463488708e"
+  },
+  "roomId": 3,
   "roomMembers": [],
-  "content": "",
   "__v": 0
 },
 {
   "_id": {
-    "$oid": "66559c73dba2f269f03dadd7"
+    "$oid": "6658a3ad226e874634887090"
   },
-  "roomId": 2,
+  "roomId": 4,
   "roomMembers": [],
-  "content": "",
   "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6658a3b2226e874634887094"
+  },
+  "roomId": 5,
+  "roomMembers": [],
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6658ada99239343010d1659f"
+  },
+  "roomId": 118749,
+  "roomMembers": [],
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6658b18b7b0d306862816dca"
+  },
+  "roomId": 186589,
+  "roomMembers": [
+    {
+      "$oid": "66558e0ed4bc4c584aa9ea5f"
+    }
+  ],
+  "__v": 1
 }]

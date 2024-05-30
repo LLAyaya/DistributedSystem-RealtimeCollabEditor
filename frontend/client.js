@@ -51,9 +51,9 @@ function joinRoom(roomId, userId) {
 }
 
 
-createRoom(118749);
+createRoom();
 
-// joinRoom(1,'66558e0ed4bc4c584aa9ea5f')
+joinRoom(1,'66558e0ed4bc4c584aa9ea5f')
 
 // const message = {
 //     type: 'log-in',
