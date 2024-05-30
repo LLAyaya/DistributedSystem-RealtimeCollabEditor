@@ -9,9 +9,10 @@ const RoomSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'users'
     }],
-    // content: {
-    //     type: String,
-    //     required: true },
+    content: {
+        type: String,
+        default: ""
+    }
 });
 
 module.exports = mongoose.model('rooms', RoomSchema);

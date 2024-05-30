@@ -79,4 +79,41 @@
     }
   ],
   "__v": 1
+},
+{
+  "_id": {
+    "$oid": "6658b6895553adae437ef7a1"
+  },
+  "roomId": 797288,
+  "roomMembers": [],
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6658baf9d8abbf95f674438c"
+  },
+  "roomId": 649130,
+  "roomMembers": [
+    {
+      "$oid": "66558e0ed4bc4c584aa9ea5f"
+    }
+  ],
+  "content": "",
+  "__v": 1
+},
+{
+  "_id": {
+    "$oid": "6658cc5b766be38c9271c228"
+  },
+  "roomId": 36088,
+  "roomMembers": [
+    {
+      "$oid": "66558e0ed4bc4c584aa9ea5f"
+    },
+    {
+      "$oid": "66558a6732c43e48f5a24888"
+    }
+  ],
+  "content": "",
+  "__v": 2
 }]

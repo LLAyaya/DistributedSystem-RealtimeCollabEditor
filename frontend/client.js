@@ -50,10 +50,26 @@ function joinRoom(roomId, userId) {
     rws.send(JSON.stringify(message));
 }
 
+function editContent(roomId, userId, operation, content) {
+    const message = {
+        type: 'edit-content',
+        data: {
+            roomId: roomId,
+            userId: userId,
+            operation: operation,
+            content: content        
+        }
+    };
+    rws.send(JSON.stringify(message));
+}
 
-createRoom();
+// createRoom();
 
-joinRoom(1,'66558e0ed4bc4c584aa9ea5f')
+// joinRoom(36088,'66558a6732c43e48f5a24888')
+
+// editContent(36088, '66558e0ed4bc4c584aa9ea5f', 'add', ' hoi cham')
+
+editContent(36088, '66558e0ed4bc4c584aa9ea5f', 'delete')
 
 // const message = {
 //     type: 'log-in',

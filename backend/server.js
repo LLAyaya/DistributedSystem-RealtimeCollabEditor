@@ -58,13 +58,13 @@ wss.on('connection', (ws) => {
                         ws.send(JSON.stringify({
                             type: 'accept',
                             data: 'Sign-up successful'
-                        }))
+                        }, null, 4))
                     }
                     else {
                         ws.send(JSON.stringify({
                             type: 'deny',
                             data: 'Sign-up failed. Username already taken'
-                        }))
+                        }, null, 4))
                     }
                     
                 }
@@ -73,7 +73,7 @@ wss.on('connection', (ws) => {
                     ws.send(JSON.stringify({
                         type: 'deny',
                         data: 'Sign-up failed. Unexpected error from the server. Please try again'
-                    }))
+                    }, null, 4))
                 }
             break 
 
@@ -85,13 +85,13 @@ wss.on('connection', (ws) => {
                         ws.send(JSON.stringify({
                             type: 'accept',
                             data: 'Log-in successful'
-                        }))
+                        }, null, 4))
                     }
                     else {
                         ws.send(JSON.stringify({
                             type: 'deny',
                             data: 'Log-in failed. Incorrect username or password'
-                        }))
+                        }, null, 4))
                     }
 
                 } catch (err) {
@@ -99,7 +99,7 @@ wss.on('connection', (ws) => {
                     ws.send(JSON.stringify({
                         type: 'deny',
                         data: 'Log-in failed. Unexpected error from the server. Please try again'
-                    }))
+                    }, null, 4))
                 }
             break 
             
@@ -119,21 +119,21 @@ wss.on('connection', (ws) => {
                             type: 'accept',
                             data: {
                                 message: 'Room created successfully',
-                                roomId: roomId
+                                roomId:   roomId
                             }
-                        }))
+                        }, null, 4))
                     } else {
                         ws.send(JSON.stringify({
                             type: 'deny',
                             data: 'Room already exists'
-                        }))
+                        }, null, 4))
                     }
                 } catch (err) {
                     console.error(err);
                     ws.send(JSON.stringify({
                         type: 'deny',
                         data: 'Create-room failed. Unexpected error from the server. Please try again'
-                    }))
+                    }, null, 4))
                 }
             break
 
@@ -155,14 +155,82 @@ wss.on('connection', (ws) => {
                             ws.send(JSON.stringify({
                                 type: 'accept',
                                 data: 'Joined room successfully'
-                            }))
+                            }, null, 4))
 
                         } else {
                             ws.send(JSON.stringify({
                                 type: 'deny',
                                 data: 'User already in the room'
-                            }))
+                            }, null, 4))
                         }
+                    } else {
+                        ws.send(JSON.stringify({
+                            type: 'deny',
+                            data: 'Room not found'
+                        }, null, 4))
+                    }
+                } catch (err) {
+                    console.error(err);
+                    ws.send(JSON.stringify({
+                        type: 'deny',
+                        data: 'Join-room failed. Unexpected error from the server. Please try again'
+                    }, null, 4))
+                }
+            break
+            
+            case 'edit-content':
+                try {
+                    const room = await Room.findOne({roomId :message.data.roomId}).exec()
+                    if (room!= null ) {
+                        if(!room.roomMembers.includes(message.data.userId)){
+                            ws.send(JSON.stringify({
+                                type: 'deny',
+                                data: 'User is not a member of the room'
+                            }, null, 4))
+                            return
+                        }
+                        
+                        switch (message.data.operation) {
+                            case 'add':
+                                // console.log(`Adding content: '${message.data.content}'`);
+                                room.content += message.data.content; 
+                                // console.log(`Updated content after add: '${room.content}'`);
+                                break
+                            case 'delete': 
+                                if (message.data.content != null) {
+                                    // Remove only the specified part of the content
+                                    const index = room.content.indexOf(message.data.content);
+                                    if (index > -1) {
+                                        room.content = room.content.substring(0, index) + room.content.substring(index + message.data.content.length);
+                                    } else {
+                                        ws.send(JSON.stringify({
+                                            type: 'deny',
+                                            data: 'Specified content not found'
+                                        }, null, 4))
+                                        return
+                                    }
+                                } else {
+                                    room.content = "";
+                                }
+                                break
+                            default:
+                                ws.send(JSON.stringify({
+                                    type: 'deny',
+                                    data: 'Invalid operation'
+                                }, null, 4))
+                                return
+                        }
+
+                        await room.save();
+
+                        ws.send(JSON.stringify({
+                            type: 'accept',
+                            data: {
+                                message: 'Content updated successfully',
+                                operation:  `${message.data.operation} - '${message.data.content}'`,
+                                newContent: room.content
+                            }
+                        }, null, 4))
                     } else {
                         ws.send(JSON.stringify({
                             type: 'deny',
@@ -173,10 +241,11 @@ wss.on('connection', (ws) => {
                     console.error(err);
                     ws.send(JSON.stringify({
                         type: 'deny',
-                        data: 'Join-room failed. Unexpected error from the server. Please try again'
-                    }))
+                        data: 'Failed to update content. Please try again'
+                    },null,4))
                 }
-                break
+            break
+                
         }
         
     });
