@@ -30,11 +30,10 @@ export const initSocket = async () => {
 const rws = await initSocket()
 
 const message = {
-    type: 'sign-up',
+    type: 'log-in',
     data: {
         userName: 'TuilaBIBI',
         userPassword: 'weiwaiweiwai',
-        userRoomIds: [],
     }
 }
 rws.send(JSON.stringify(message))

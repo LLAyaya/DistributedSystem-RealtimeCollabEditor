@@ -41,32 +41,67 @@ wss.on('connection', (ws) => {
     ws.on('message', async (rawMessage) => {
         // console.log(`Received message: ${message}`)
         const message = JSON.parse(rawMessage)
-        console.log(message)
 
         switch(message.type) {
             case 'sign-up':
                 try {
-                    const user = new User({
-                        userName: message.data.userName,
-                        userPassword: message.data.userPassword,
-                        userRoomIds: []
-                    })
-                    await user.save()
-
+                    const existedUser = await User.findOne({ userName: message.data.userName }).exec()
+                    
+                    if (existedUser == null) {
+                        const user = new User({
+                            userName: message.data.userName,
+                            userPassword: message.data.userPassword,
+                            userRoomIds: []
+                        })
+                        await user.save()
+    
+                        ws.send(JSON.stringify({
+                            type: 'accept',
+                            data: 'Sign-up successful'
+                        }))
+                    }
+                    else {
+                        ws.send(JSON.stringify({
+                            type: 'deny',
+                            data: 'Sign-up failed. Username already taken'
+                        }))
+                    }
+                    
+                }
+                catch (err) {
+                    console.error(err);
                     ws.send(JSON.stringify({
-                        type: 'accept',
-                        data: 'Sign-up successful'
+                        type: 'deny',
+                        data: 'Sign-up failed. Unexpected error from the server. Please try again'
                     }))
+                }
+            break 
+
+            case 'log-in':
+                try {
+                    const user = await User.findOne({ userName: message.data.userName, userPassword: message.data.userPassword }).exec()
+                    
+                    if (user != null) {
+                        ws.send(JSON.stringify({
+                            type: 'accept',
+                            data: 'Log-in successful'
+                        }))
+                    }
+                    else {
+                        ws.send(JSON.stringify({
+                            type: 'deny',
+                            data: 'Log-in failed. Incorrect username or password'
+                        }))
+                    }
+
                 } catch (err) {
                     console.error(err);
                     ws.send(JSON.stringify({
                         type: 'deny',
-                        data: 'Sign-up failed'
+                        data: 'Log-in failed. Unexpected error from the server. Please try again'
                     }))
                 }
-                
-            case 'log-in':
-                break
+            break 
         }
         
     });
