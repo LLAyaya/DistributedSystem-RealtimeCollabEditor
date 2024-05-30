@@ -12,8 +12,29 @@ export const initSocket = async () => {
     
     rws.addEventListener('open', () => {
         console.log('Connected to the Server')
-        rws.send('hello!')
     })
+
+    rws.onmessage = (message) => {
+        console.log(message.data)
+        switch(message.data.type) {
+            case 'accept':
+                console.log(message.data.data)
+            case 'deny':
+                break;
+        }
+    }
 
     return rws
 }
+
+const rws = await initSocket()
+
+const message = {
+    type: 'sign-up',
+    data: {
+        userName: 'TuilaBIBI',
+        userPassword: 'weiwaiweiwai',
+        userRoomIds: [],
+    }
+}
+rws.send(JSON.stringify(message))
