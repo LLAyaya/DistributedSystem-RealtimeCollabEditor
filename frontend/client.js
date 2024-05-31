@@ -14,54 +14,87 @@ export const initSocket = async () => {
         console.log('Connected to the Server')
     })
 
+    // To be overridden
     rws.onmessage = (message) => {
-        console.log(message.data)
         switch(message.data.type) {
             case 'accept':
-                console.log(message.data.data)
+                break
             case 'deny':
-                break;
+                break
         }
+        console.log(JSON.parse(message.data).data)
     }
 
-    return rws
-}
-
-const rws = await initSocket()
-
-function createRoom(roomId) {
-    const message = {
-        type: 'create-room',
-        data: {
-            roomId: roomId 
-        }
-    };
-    rws.send(JSON.stringify(message));
-}
-
-function joinRoom(roomId, userId) {
-    const message = {
-        type: 'join-room',
-        data: {
-            roomId: roomId,
-            userId: userId
-        }
+    // Setup rws wrapper
+    const rwsController = {
+        rws: rws,
+        onmessage: rws.onmessage,
     }
-    rws.send(JSON.stringify(message));
+
+    rwsController.signup = function(userName, userPassword) {
+        const message = {
+            type: 'sign-up',
+            data: {
+                userName: userName,
+                userPassword: userPassword,
+            }
+        }
+        rws.send(JSON.stringify(message))
+    }
+
+    rwsController.login = function(userName, userPassword) {
+        const message = {
+            type: 'log-in',
+            data: {
+                userName: userName,
+                userPassword: userPassword,
+            }
+        }
+        rws.send(JSON.stringify(message))
+    }
+
+    return rwsController
 }
 
-function editContent(roomId, userId, operation, content) {
-    const message = {
-        type: 'edit-content',
-        data: {
-            roomId: roomId,
-            userId: userId,
-            operation: operation,
-            content: content        
-        }
-    };
-    rws.send(JSON.stringify(message));
-}
+const rwsController = await initSocket()
+
+rwsController.signup('MynameisTraSua', 'TraSuaMuonNam')
+
+rwsController.login('MynameisTraSua', 'TraSuaMuonNam')
+
+// function createRoom(roomId) {
+//     const message = {
+//         type: 'create-room',
+//         data: {
+//             roomId: roomId 
+//         }
+//     };
+//     rws.send(JSON.stringify(message));
+// }
+
+// function joinRoom(roomId, userId) {
+//     const message = {
+//         type: 'join-room',
+//         data: {
+//             roomId: roomId,
+//             userId: userId
+//         }
+//     }
+//     rws.send(JSON.stringify(message));
+// }
+
+// function editContent(roomId, userId, operation, content) {
+//     const message = {
+//         type: 'edit-content',
+//         data: {
+//             roomId: roomId,
+//             userId: userId,
+//             operation: operation,
+//             content: content        
+//         }
+//     };
+//     rws.send(JSON.stringify(message));
+// }
 
 // createRoom();
 
@@ -69,7 +102,7 @@ function editContent(roomId, userId, operation, content) {
 
 // editContent(36088, '66558e0ed4bc4c584aa9ea5f', 'add', ' hoi cham')
 
-editContent(36088, '66558e0ed4bc4c584aa9ea5f', 'delete')
+// editContent(36088, '66558e0ed4bc4c584aa9ea5f', 'delete')
 
 // const message = {
 //     type: 'log-in',
