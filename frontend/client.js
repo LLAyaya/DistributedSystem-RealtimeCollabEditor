@@ -1,3 +1,4 @@
+import { RedoTwoTone } from '@mui/icons-material';
 import ReconnectingWebSocket from 'reconnecting-websocket';
 import WS from 'ws';
 
@@ -29,28 +30,62 @@ export const initSocket = async () => {
     const rwsController = {
         rws: rws,
         onmessage: rws.onmessage,
-    }
-
-    rwsController.signup = function(userName, userPassword) {
-        const message = {
-            type: 'sign-up',
-            data: {
-                userName: userName,
-                userPassword: userPassword,
+        
+        signup: function(userName, userPassword) {
+            const message = {
+                type: 'sign-up',
+                data: {
+                    userName: userName,
+                    userPassword: userPassword,
+                }
             }
-        }
-        rws.send(JSON.stringify(message))
-    }
+            rws.send(JSON.stringify(message))
+        },
 
-    rwsController.login = function(userName, userPassword) {
-        const message = {
-            type: 'log-in',
-            data: {
-                userName: userName,
-                userPassword: userPassword,
+        login: function(userName, userPassword) {
+            const message = {
+                type: 'log-in',
+                data: {
+                    userName: userName,
+                    userPassword: userPassword,
+                }
             }
+            rws.send(JSON.stringify(message))
+        },
+
+        createRoom: function(roomId) {
+            const message = {
+                type: 'create-room',
+                data: {
+                    roomId: roomId
+                }
+            }
+            rws.send(JSON.stringify(message))
+        },
+
+        joinRoom: function(roomId, userId) {
+            const message = {
+                type: 'join-room',
+                data: {
+                    roomId: roomId,
+                    userId: userId
+                }
+            }
+            rws.send(JSON.stringify(message))
+        },
+
+        editContent: function(roomId, userId, operation, content) {
+            const message = {
+                type: 'edit-content',
+                data: {
+                    roomId: roomId,
+                    userId: userId,
+                    operation: operation,
+                    content: content        
+                }
+            }
+            rws.send(JSON.stringify(message))
         }
-        rws.send(JSON.stringify(message))
     }
 
     return rwsController
@@ -58,59 +93,18 @@ export const initSocket = async () => {
 
 const rwsController = await initSocket()
 
-/* Example usage
-rwsController.signup('MynameisTraSua', 'TraSuaMuonNam')
+// Example usage
 
-rwsController.login('MynameisTraSua', 'TraSuaMuonNam')
-*/
+// rwsController.signup('MynameisTraSua', 'TraSuaMuonNam')
 
-// function createRoom(roomId) {
-//     const message = {
-//         type: 'create-room',
-//         data: {
-//             roomId: roomId 
-//         }
-//     };
-//     rws.send(JSON.stringify(message));
-// }
+// rwsController.login('MynameisTraSua', 'TraSuaMuonNam')
 
-// function joinRoom(roomId, userId) {
-//     const message = {
-//         type: 'join-room',
-//         data: {
-//             roomId: roomId,
-//             userId: userId
-//         }
-//     }
-//     rws.send(JSON.stringify(message));
-// }
+// rwsController.createRoom()
 
-// function editContent(roomId, userId, operation, content) {
-//     const message = {
-//         type: 'edit-content',
-//         data: {
-//             roomId: roomId,
-//             userId: userId,
-//             operation: operation,
-//             content: content        
-//         }
-//     };
-//     rws.send(JSON.stringify(message));
-// }
+// rwsController.createRoom(36088)
 
-// createRoom();
+// rwsController.joinRoom(36088, '6659fa997f082de1bca4aac1')
 
-// joinRoom(36088,'66558a6732c43e48f5a24888')
+// rwsController.editContent(36088, '66558e0ed4bc4c584aa9ea5f', 'add', ' hoi cham')
 
-// editContent(36088, '66558e0ed4bc4c584aa9ea5f', 'add', ' hoi cham')
-
-// editContent(36088, '66558e0ed4bc4c584aa9ea5f', 'delete')
-
-// const message = {
-//     type: 'log-in',
-//     data: {
-//         userName: 'TuilaBIBI',
-//         userPassword: 'weiwaiweiwai',
-//     }
-// }
-// rws.send(JSON.stringify(message))
+// rwsController.editContent(36088, '66558e0ed4bc4c584aa9ea5f', 'delete')
