@@ -247,7 +247,30 @@ wss.on('connection', (ws) => {
             break
                 
         }
-        
+    });
+
+    const updateContent = Room.watch();
+
+    updateContent.on('change', (change) => {
+        switch (change.operationType) {
+            case 'update':
+                const updatedFields = change.updateDescription.updatedFields;
+                if (updatedFields.content) {
+                    const roomId = change.documentKey._id;
+                    const newContent = updatedFields.content;
+
+                    wss.clients.forEach(client => {
+                        if (client.readyState === WebSocket.OPEN) {
+                            client.send(JSON.stringify({
+                                type: 'update-content',
+                                roomId: roomId,
+                                content: newContent
+                            }));
+                        }
+                    });
+                }
+                break;
+        }
     });
 })
 
