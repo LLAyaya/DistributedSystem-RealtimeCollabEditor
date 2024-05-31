@@ -58,9 +58,11 @@ export const initSocket = async () => {
 
 const rwsController = await initSocket()
 
+/* Example usage
 rwsController.signup('MynameisTraSua', 'TraSuaMuonNam')
 
 rwsController.login('MynameisTraSua', 'TraSuaMuonNam')
+*/
 
 // function createRoom(roomId) {
 //     const message = {
