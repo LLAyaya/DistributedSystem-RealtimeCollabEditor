@@ -142,6 +142,9 @@ wss.on('connection', (ws) => {
                     const room = await Room.findOne({roomId: message.data.roomId}).exec()
                     const member = await User.findOne({userName: message.data.userName}).exec()
                     
+                    // console.log(room)
+                    // console.log(member)
+
                     if (room != null && member != null){   
                         if(!room.roomMembers.includes(message.data.userName)){
                             room.roomMembers.push(message.data.userName);
@@ -249,28 +252,28 @@ wss.on('connection', (ws) => {
         }
     });
 
-    // const updateContent = Room.watch();
+    const updateContent = Room.watch();
 
-    // updateContent.on('change', (change) => {
-    //     switch (change.operationType) {
-    //         case 'update':
-    //             const updatedFields = change.updateDescription.updatedFields;
-    //             if (updatedFields.content != null) {
-    //                 const roomId = change.documentKey._id;
-    //                 const newContent = updatedFields.content;
+    updateContent.on('change', (change) => {
+        switch (change.operationType) {
+            case 'update':
+                const updatedFields = change.updateDescription.updatedFields;
+                if (updatedFields.content != null) {
+                    const roomId = change.documentKey._id;
+                    const newContent = updatedFields.content;
 
-    //                 wss.clients.forEach(client => {
-    //                     if (client.readyState === WebSocket.OPEN) {
-    //                         client.send(JSON.stringify({
-    //                             type: 'update-content',
-    //                             roomId: roomId,
-    //                             content: newContent
-    //                         }));
-    //                     }
-    //                 });
-    //             }
-    //             break;
-    //     }
-    // });
+                    wss.clients.forEach(client => {
+                        // if (client.readyState === WebSocket.OPEN) {
+                            client.send(JSON.stringify({
+                                type: 'update-content',
+                                roomId: roomId,
+                                content: newContent
+                            }));
+                        // }
+                    });
+                }
+                break;
+        }
+    });
 })
 

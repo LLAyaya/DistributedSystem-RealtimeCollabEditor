@@ -16,15 +16,14 @@ export const initSocket = async () => {
     })
 
     // To be overridden
-    rws.onmessage = (message) => {
-        switch(message.data.type) {
-            case 'accept':
-                break
-            case 'deny':
-                break
-        }
-        console.log(JSON.parse(message.data).data)
-    }
+    // rws.onmessage = (message) => {
+    //     switch(message.data.type) {
+    //         case 'accept':
+    //             console.log(JSON.parse(message.data).data)
+    //         case 'deny':
+    //             console.log(JSON.parse(message.data).data)
+    //     }
+    // }
 
     // Setup rws wrapper
     const rwsController = {
@@ -101,10 +100,25 @@ const rwsController = await initSocket()
 
 // rwsController.createRoom()
 
-// rwsController.createRoom(36088)
+// rwsController.createRoom(69420)
 
-// rwsController.joinRoom(500857, 'Quan')
+rwsController.joinRoom(500857, 'Quan')
 
-rwsController.editContent(500857, 'Quan', 'add', ' hoi cham')
+rwsController.editContent(500857, 'Quan', 'add', ' a')
 
-// rwsController.editContent(36088, '66558e0ed4bc4c584aa9ea5f', 'delete')
+setTimeout(() => {
+    rwsController.editContent(500857, 'Quan', 'add', ' b')
+}, 1000)
+
+setTimeout(() => {
+    rwsController.editContent(500857, 'Quan', 'add', ' c')
+}, 2000)
+
+setTimeout(() => {
+    rwsController.editContent(500857, 'Quan', 'add', ' d')
+}, 3000)
+
+
+// await rwsController.editContent(500857, 'Quan', 'add', ' 3')
+
+// rwsController.editContent(500857, 'Quan', 'delete')
