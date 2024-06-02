@@ -1,108 +1,5 @@
 [{
   "_id": {
-    "$oid": "66559c73dba2f269f03dadd7"
-  },
-  "roomId": 2,
-  "roomPassword": "q3qeqeq",
-  "roomMembers": [
-    {
-      "$oid": "66558a6732c43e48f5a24888"
-    },
-    {
-      "$oid": "66558e0ed4bc4c584aa9ea5f"
-    },
-    {
-      "$oid": "6658279f58295b146a2fefac"
-    }
-  ],
-  "__v": 3
-},
-{
-  "_id": {
-    "$oid": "66559be06275888693d25730"
-  },
-  "roomId": 1,
-  "roomPassword": "1231231asda",
-  "roomMembers": [
-    {
-      "$oid": "6658279f58295b146a2fefac"
-    },
-    {
-      "$oid": "66558a6732c43e48f5a24888"
-    },
-    {
-      "$oid": "66558e0ed4bc4c584aa9ea5f"
-    }
-  ],
-  "__v": 3
-},
-{
-  "_id": {
-    "$oid": "6658a3a5226e87463488708e"
-  },
-  "roomId": 3,
-  "roomMembers": [],
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "6658a3ad226e874634887090"
-  },
-  "roomId": 4,
-  "roomMembers": [],
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "6658a3b2226e874634887094"
-  },
-  "roomId": 5,
-  "roomMembers": [],
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "6658ada99239343010d1659f"
-  },
-  "roomId": 118749,
-  "roomMembers": [],
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "6658b18b7b0d306862816dca"
-  },
-  "roomId": 186589,
-  "roomMembers": [
-    {
-      "$oid": "66558e0ed4bc4c584aa9ea5f"
-    }
-  ],
-  "__v": 1
-},
-{
-  "_id": {
-    "$oid": "6658b6895553adae437ef7a1"
-  },
-  "roomId": 797288,
-  "roomMembers": [],
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "6658baf9d8abbf95f674438c"
-  },
-  "roomId": 649130,
-  "roomMembers": [
-    {
-      "$oid": "66558e0ed4bc4c584aa9ea5f"
-    }
-  ],
-  "content": "",
-  "__v": 1
-},
-{
-  "_id": {
     "$oid": "6658cc5b766be38c9271c228"
   },
   "roomId": 36088,
@@ -112,8 +9,45 @@
     },
     {
       "$oid": "66558a6732c43e48f5a24888"
+    },
+    {
+      "$oid": "6659fa997f082de1bca4aac1"
     }
   ],
+  "content": " hoi cham hello world hoi cham hoi cham",
+  "__v": 3
+},
+{
+  "_id": {
+    "$oid": "6659fbe67f082de1bca4aac5"
+  },
+  "roomId": 563670,
+  "roomMembers": [
+    {
+      "$oid": "6659fa997f082de1bca4aac1"
+    }
+  ],
+  "content": " hoi cham",
+  "__v": 1
+},
+{
+  "_id": {
+    "$oid": "665c6c33a5266f086104999c"
+  },
+  "roomId": 500857,
+  "roomMembers": [
+    "Thong",
+    "Quan"
+  ],
+  "content": " hoi cham",
+  "__v": 3
+},
+{
+  "_id": {
+    "$oid": "665c6c44a5266f08610499a0"
+  },
+  "roomId": 287751,
+  "roomMembers": [],
   "content": "",
-  "__v": 2
+  "__v": 0
 }]

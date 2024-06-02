@@ -4,8 +4,11 @@
   },
   "userName": "Thong",
   "userPassword": "Thong",
-  "userRoomIds": [],
-  "__v": 0
+  "userRoomIds": [
+    36088,
+    500857
+  ],
+  "__v": 2
 },
 {
   "_id": {
@@ -15,9 +18,12 @@
   "userPassword": "1231231",
   "userRoomIds": [
     1,
-    186589
+    186589,
+    649130,
+    36088,
+    500857
   ],
-  "__v": 2
+  "__v": 5
 },
 {
   "_id": {
@@ -27,4 +33,16 @@
   "userPassword": "weiwaiweiwai",
   "userRoomIds": [],
   "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6659fa997f082de1bca4aac1"
+  },
+  "userName": "MynameisTraSua",
+  "userPassword": "TraSuaMuonNam",
+  "userRoomIds": [
+    36088,
+    563670
+  ],
+  "__v": 2
 }]

@@ -140,11 +140,11 @@ wss.on('connection', (ws) => {
             case 'join-room':
                 try {
                     const room = await Room.findOne({roomId: message.data.roomId}).exec()
-                    const member = await User.findOne({_id: message.data.userId}).exec()
+                    const member = await User.findOne({userName: message.data.userName}).exec()
                     
                     if (room != null && member != null){   
-                        if(!room.roomMembers.includes(message.data.userId)){
-                            room.roomMembers.push(message.data.userId);
+                        if(!room.roomMembers.includes(message.data.userName)){
+                            room.roomMembers.push(message.data.userName);
                             await room.save();
 
                             if (!member.userRoomIds.includes(message.data.roomId)){
@@ -182,7 +182,7 @@ wss.on('connection', (ws) => {
                 try {
                     const room = await Room.findOne({roomId :message.data.roomId}).exec()
                     if (room!= null ) {
-                        if(!room.roomMembers.includes(message.data.userId)){
+                        if(!room.roomMembers.includes(message.data.userName)){
                             ws.send(JSON.stringify({
                                 type: 'deny',
                                 data: 'User is not a member of the room'
@@ -249,28 +249,28 @@ wss.on('connection', (ws) => {
         }
     });
 
-    const updateContent = Room.watch();
+    // const updateContent = Room.watch();
 
-    updateContent.on('change', (change) => {
-        switch (change.operationType) {
-            case 'update':
-                const updatedFields = change.updateDescription.updatedFields;
-                if (updatedFields.content) {
-                    const roomId = change.documentKey._id;
-                    const newContent = updatedFields.content;
+    // updateContent.on('change', (change) => {
+    //     switch (change.operationType) {
+    //         case 'update':
+    //             const updatedFields = change.updateDescription.updatedFields;
+    //             if (updatedFields.content != null) {
+    //                 const roomId = change.documentKey._id;
+    //                 const newContent = updatedFields.content;
 
-                    wss.clients.forEach(client => {
-                        if (client.readyState === WebSocket.OPEN) {
-                            client.send(JSON.stringify({
-                                type: 'update-content',
-                                roomId: roomId,
-                                content: newContent
-                            }));
-                        }
-                    });
-                }
-                break;
-        }
-    });
+    //                 wss.clients.forEach(client => {
+    //                     if (client.readyState === WebSocket.OPEN) {
+    //                         client.send(JSON.stringify({
+    //                             type: 'update-content',
+    //                             roomId: roomId,
+    //                             content: newContent
+    //                         }));
+    //                     }
+    //                 });
+    //             }
+    //             break;
+    //     }
+    // });
 })
 

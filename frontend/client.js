@@ -63,23 +63,23 @@ export const initSocket = async () => {
             rws.send(JSON.stringify(message))
         },
 
-        joinRoom: function(roomId, userId) {
+        joinRoom: function(roomId, userName) {
             const message = {
                 type: 'join-room',
                 data: {
                     roomId: roomId,
-                    userId: userId
+                    userName: userName
                 }
             }
             rws.send(JSON.stringify(message))
         },
 
-        editContent: function(roomId, userId, operation, content) {
+        editContent: function(roomId, userName, operation, content) {
             const message = {
                 type: 'edit-content',
                 data: {
                     roomId: roomId,
-                    userId: userId,
+                    userName: userName,
                     operation: operation,
                     content: content        
                 }
@@ -103,8 +103,8 @@ const rwsController = await initSocket()
 
 // rwsController.createRoom(36088)
 
-// rwsController.joinRoom(36088, '6659fa997f082de1bca4aac1')
+// rwsController.joinRoom(500857, 'Quan')
 
-// rwsController.editContent(36088, '66558e0ed4bc4c584aa9ea5f', 'add', ' hoi cham')
+rwsController.editContent(500857, 'Quan', 'add', ' hoi cham')
 
 // rwsController.editContent(36088, '66558e0ed4bc4c584aa9ea5f', 'delete')

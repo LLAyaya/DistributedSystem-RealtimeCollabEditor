@@ -6,7 +6,7 @@ const RoomSchema = new mongoose.Schema({
         unique: true, 
         required: true },
     roomMembers: [{
-        type: mongoose.Schema.Types.ObjectId,
+        type: String,
         ref: 'users'
     }],
     content: {
