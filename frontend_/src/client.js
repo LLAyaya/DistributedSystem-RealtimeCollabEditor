@@ -1,42 +1,24 @@
 import ReconnectingWebSocket from 'reconnecting-websocket';
 
-export const initClient = async () => {
+export const initClient = () => {
     const options = {
         connectionTimeout: 10000,
         maxEntries: 10,
     }
-    
-    console.log('Hey')
 
     const rws = new ReconnectingWebSocket('http://localhost:5000', [], options)
     
     rws.addEventListener('open', () => {
         console.log('Connected to the Server')
-    })
-
-    // To be overridden
-    rws.onmessage = (message) => {
-        const data = JSON.parse(message.data)
-        switch(data.type) {
-            case 'accept':
-                console.log(data.data)
-                break
-            case 'deny':
-                console.log(data.data)
-                break
-            default:
-                break
-        }
-    }
+    })    
 
     // Setup rws wrapper
     const rwsController = {
         rws: rws,
-        onmessage: rws.onmessage,
-        
+
         signup: function(userName, userPassword) {
             const message = {
-                type: 'sign-up',
+                type: 'sign up',
                 data: {
                     userName: userName,
                     userPassword: userPassword,
@@ -47,7 +29,7 @@ export const initClient = async () => {
 
         login: function(userName, userPassword) {
             const message = {
-                type: 'log-in',
+                type: 'log in',
                 data: {
                     userName: userName,
                     userPassword: userPassword,
@@ -88,6 +70,23 @@ export const initClient = async () => {
                 }
             }
             rws.send(JSON.stringify(message))
+        },
+
+        _messageCallbacks: {},
+        onMessageType: function(messageType, callback) {
+            rwsController._messageCallbacks[messageType] = callback
+        }
+    }
+
+    rws.onmessage = (message) => {
+        const data = JSON.parse(message.data)
+
+        const callback = rwsController._messageCallbacks[data.type]
+        if (typeof callback === 'function') {
+            callback(data)
+        }
+        else {
+            console.log('Uncaptured message: ', data)
         }
     }
 

@@ -10,42 +10,50 @@ const Editor = ({clientControllerRef, roomId, userName}) => {
     const codeMirrorRef = useRef(null)
 
     useEffect(() => {
-        const init = async () => {
-            const codeMirror = CodeMirror(codeMirrorRef.current, {
+        function init () {
+            codeMirrorRef.current = CodeMirror.fromTextArea(
+                document.getElementById('realtimeEditor'), {
                 mode: 'javascript',
                 theme: 'material',
                 lineNumbers: true,
                 readOnly: false,
             })
     
-            // codeMirror.setValue('// Testing, testing. Things just got more interesting')
-    
-            codeMirror.on('change', (instance, changes) => {
+            codeMirrorRef.current.on('change', (instance, changes) => {
                 const {origin} = changes
                 const content = instance.getValue()
                 
+                console.log(content)
                 // onCodeChange(content)
-    
+
                 if (origin !== 'setValue') {
                     clientControllerRef.current.editContent(roomId, userName, 'update', content)
                 }
             })
         }
         init()
-        
 
-        return () => {
-            // codeMirror.toTextArea()
+        // codeMirrorRef.current.setValue('hello')
+
+        console.log(codeMirrorRef.current)
+
+        clientControllerRef.current.onMessageType('editor sync', (data) => {
+            if (data.content !== null) {
+                codeMirrorRef.current.setValue(data.content)
+            }
+        })
+    })
+
+    useEffect(() => {
+        if (clientControllerRef.current) {
+            
         }
-    }, [])
+
+    })
     
-
-
     return (
-        <div>
-            <div ref={codeMirrorRef} style={{ height: '300px' }} />
-        </div>
-    )
+        <textarea id="realtimeEditor"></textarea>
+    );
 }
 
 export default Editor

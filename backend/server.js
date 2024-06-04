@@ -43,7 +43,7 @@ wss.on('connection', (ws) => {
         const message = JSON.parse(rawMessage)
 
         switch(message.type) {
-            case 'sign-up':
+            case 'sign up':
                 try {
                     const existedUser = await User.findOne({ userName: message.data.userName }).exec()
                     
@@ -56,14 +56,21 @@ wss.on('connection', (ws) => {
                         await user.save()
     
                         ws.send(JSON.stringify({
-                            type: 'accept',
-                            data: 'Sign-up successful'
+                            type: 'agree sign up',
+                            data: {
+                                user: {
+                                    
+                                },
+                                userRooms: {
+                                    
+                                }
+                            }
                         }, null, 4))
                     }
                     else {
                         ws.send(JSON.stringify({
-                            type: 'deny',
-                            data: 'Sign-up failed. Username already taken'
+                            type: 'deny sign up',
+                            data: {}
                         }, null, 4))
                     }
                     
@@ -77,7 +84,7 @@ wss.on('connection', (ws) => {
                 }
             break 
 
-            case 'log-in':
+            case 'log in':
                 try {
                     const user = await User.findOne({ userName: message.data.userName, userPassword: message.data.userPassword }).exec()
                     
@@ -157,6 +164,14 @@ wss.on('connection', (ws) => {
                                 data: 'Joined room successfully'
                             }, null, 4))
 
+                            ws.send(JSON.stringify({
+                                type: 'sync',
+                                data: {
+                                    roomMembers: room.roomMembers,
+                                    content: room.content
+                                }
+                            }, null, 4))
+
                         } else {
                             ws.send(JSON.stringify({
                                 type: 'deny',
@@ -180,7 +195,7 @@ wss.on('connection', (ws) => {
             
             case 'edit-content':
                 try {
-                    const room = await Room.findOne({roomId :message.data.roomId}).exec()
+                    const room = await Room.findOne({roomId: message.data.roomId}).exec()
                     if (room!= null ) {
                         if(!room.roomMembers.includes(message.data.userName)){
                             ws.send(JSON.stringify({
@@ -262,10 +277,12 @@ wss.on('connection', (ws) => {
                     const roomId = change.documentKey._id;
                     const newContent = updatedFields.content;
 
+                    // big problem uh oh
                     wss.clients.forEach(client => {
+                        
                         // if (client.readyState === WebSocket.OPEN) {
                             client.send(JSON.stringify({
-                                type: 'update-content',
+                                type: 'editor sync',
                                 roomId: roomId,
                                 content: newContent
                             }));

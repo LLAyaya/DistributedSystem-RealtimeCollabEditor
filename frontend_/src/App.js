@@ -6,18 +6,24 @@ import { initClient } from './client'
 function App() {
     const clientControllerRef = useRef(null)
 
+    const init = () => {
+        clientControllerRef.current = initClient()
+
+        clientControllerRef.current.createRoom(123)
+        clientControllerRef.current.joinRoom(123, 'Quan')
+        // clientControllerRef.current.onMessageType('editor sync', () => {
+        //     console.log('huh')
+        // })
+    }
+    init()
+    console.log(clientControllerRef)
+
+    // return () => {
+    //     // Terminate the clientController instance in ref
+    // }
+
     useEffect(() => {
-        const init = async () => {
-            clientControllerRef.current = await initClient()
-
-            clientControllerRef.current.createRoom(123)
-            clientControllerRef.current.joinRoom(123, 'Quan')
-        }
-        init()
-
-        return () => {
-            // Terminate the clientController instance in ref
-        }
+        
     }, [])
     
 
