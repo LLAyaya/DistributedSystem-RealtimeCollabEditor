@@ -1,28 +1,33 @@
 import ReconnectingWebSocket from 'reconnecting-websocket';
-import WS from 'ws';
 
-export const initSocket = async () => {
+export const initClient = async () => {
     const options = {
-        WebSocket: WS,
         connectionTimeout: 10000,
         maxEntries: 10,
     }
     
-    const rws = new ReconnectingWebSocket('ws://localhost:5000', [], options)
+    console.log('Hey')
+
+    const rws = new ReconnectingWebSocket('http://localhost:5000', [], options)
     
     rws.addEventListener('open', () => {
         console.log('Connected to the Server')
     })
 
     // To be overridden
-    // rws.onmessage = (message) => {
-    //     switch(message.data.type) {
-    //         case 'accept':
-    //             console.log(JSON.parse(message.data).data)
-    //         case 'deny':
-    //             console.log(JSON.parse(message.data).data)
-    //     }
-    // }
+    rws.onmessage = (message) => {
+        const data = JSON.parse(message.data)
+        switch(data.type) {
+            case 'accept':
+                console.log(data.data)
+                break
+            case 'deny':
+                console.log(data.data)
+                break
+            default:
+                break
+        }
+    }
 
     // Setup rws wrapper
     const rwsController = {
@@ -89,7 +94,7 @@ export const initSocket = async () => {
     return rwsController
 }
 
-const rwsController = await initSocket()
+// const rwsController = await initClient()
 
 // Example usage
 
@@ -101,21 +106,21 @@ const rwsController = await initSocket()
 
 // rwsController.createRoom(69420)
 
-rwsController.joinRoom(500857, 'Quan')
+// rwsController.joinRoom(500857, 'Quan')
 
-rwsController.editContent(500857, 'Quan', 'add', ' a')
+// rwsController.editContent(500857, 'Quan', 'add', ' a')
 
-setTimeout(() => {
-    rwsController.editContent(500857, 'Quan', 'add', ' b')
-}, 1000)
+// setTimeout(() => {
+//     rwsController.editContent(500857, 'Quan', 'add', ' b')
+// }, 1000)
 
-setTimeout(() => {
-    rwsController.editContent(500857, 'Quan', 'add', ' c')
-}, 2000)
+// setTimeout(() => {
+//     rwsController.editContent(500857, 'Quan', 'add', ' c')
+// }, 2000)
 
-setTimeout(() => {
-    rwsController.editContent(500857, 'Quan', 'add', ' d')
-}, 3000)
+// setTimeout(() => {
+//     rwsController.editContent(500857, 'Quan', 'add', ' d')
+// }, 3000)
 
 
 // await rwsController.editContent(500857, 'Quan', 'add', ' 3')

@@ -141,9 +141,6 @@ wss.on('connection', (ws) => {
                 try {
                     const room = await Room.findOne({roomId: message.data.roomId}).exec()
                     const member = await User.findOne({userName: message.data.userName}).exec()
-                    
-                    // console.log(room)
-                    // console.log(member)
 
                     if (room != null && member != null){   
                         if(!room.roomMembers.includes(message.data.userName)){
@@ -215,6 +212,9 @@ wss.on('connection', (ws) => {
                                 } else {
                                     room.content = "";
                                 }
+                                break
+                            case 'update':
+                                room.content = message.data.content;
                                 break
                             default:
                                 ws.send(JSON.stringify({
