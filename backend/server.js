@@ -284,29 +284,29 @@ wss.on('connection', (ws) => {
         }
     });
 
-    // const updateContent = Room.watch();
+    const updateContent = Room.watch();
 
-    // updateContent.on('change', (change) => {
-    //     switch (change.operationType) {
-    //         case 'update':
-    //             const updatedFields = change.updateDescription.updatedFields;
-    //             if (updatedFields.content != null) {
-    //                 const roomId = change.documentKey._id;
-    //                 const newContent = updatedFields.content;
+    updateContent.on('change', (change) => {
+        switch (change.operationType) {
+            case 'update':
+                const updatedFields = change.updateDescription.updatedFields;
+                if (updatedFields.content != null) {
+                    const roomId = change.documentKey._id;
+                    const newContent = updatedFields.content;
 
-    //                 // big problem uh oh
-    //                 wss.clients.forEach(client => {
+                    // big problem uh oh
+                    wss.clients.forEach(client => {
                         
-    //                     // if (client.readyState === WebSocket.OPEN) {
-    //                         client.send(JSON.stringify({
-    //                             type: 'editor sync',
-    //                             roomId: roomId,
-    //                             content: newContent
-    //                         }));
-    //                     // }
-    //                 });
-    //             }
-    //             break;
-    //     }
-    // });
+                        // if (client.readyState === WebSocket.OPEN) {
+                            client.send(JSON.stringify({
+                                type: 'editor sync',
+                                roomId: roomId,
+                                content: newContent
+                            }));
+                        // }
+                    });
+                }
+                break;
+        }
+    });
 })
