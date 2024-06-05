@@ -1,3 +1,4 @@
+
 import ReconnectingWebSocket from 'reconnecting-websocket';
 import WS from 'ws';
 
@@ -19,11 +20,22 @@ export const initSocket = async () => {
     //     switch(message.data.type) {
     //         case 'accept':
     //             console.log(JSON.parse(message.data).data)
+    //             break
     //         case 'deny':
     //             console.log(JSON.parse(message.data).data)
+    //             break
     //     }
     // }
 
+    rws.onmessage = (message) => {
+        switch(message.data.type) {
+            case 'accept':
+                break
+            case 'deny':
+                break
+        }
+        console.log(JSON.parse(message.data).data)
+    }
     // Setup rws wrapper
     const rwsController = {
         rws: rws,
@@ -95,27 +107,27 @@ const rwsController = await initSocket()
 
 // rwsController.signup('MynameisTraSua', 'TraSuaMuonNam')
 
-// rwsController.login('MynameisTraSua', 'TraSuaMuonNam')
+// rwsController.login('Quan', '1231231')
 
 // rwsController.createRoom()
 
 // rwsController.createRoom(69420)
 
-rwsController.joinRoom(500857, 'Quan')
+rwsController.joinRoom(1, 'Thong')
 
-rwsController.editContent(500857, 'Quan', 'add', ' a')
+// rwsController.editContent(1, 'Thong', 'add', 'xin chao')
 
-setTimeout(() => {
-    rwsController.editContent(500857, 'Quan', 'add', ' b')
-}, 1000)
+// setTimeout(() => {
+//     rwsController.editContent(500857, 'Quan', 'add', ' b')
+// }, 1000)
 
-setTimeout(() => {
-    rwsController.editContent(500857, 'Quan', 'add', ' c')
-}, 2000)
+// setTimeout(() => {
+//     rwsController.editContent(500857, 'Quan', 'add', ' c')
+// }, 2000)
 
-setTimeout(() => {
-    rwsController.editContent(500857, 'Quan', 'add', ' d')
-}, 3000)
+// setTimeout(() => {
+//     rwsController.editContent(500857, 'Quan', 'add', ' d')
+// }, 3000)
 
 
 // await rwsController.editContent(500857, 'Quan', 'add', ' 3')

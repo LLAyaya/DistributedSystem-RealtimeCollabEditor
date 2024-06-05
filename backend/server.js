@@ -43,7 +43,7 @@ wss.on('connection', (ws) => {
         const message = JSON.parse(rawMessage)
 
         switch(message.type) {
-            case 'sign up':
+            case 'sign-up':
                 try {
                     const existedUser = await User.findOne({ userName: message.data.userName }).exec()
                     
@@ -54,23 +54,21 @@ wss.on('connection', (ws) => {
                             userRoomIds: []
                         })
                         await user.save()
-    
+                        
                         ws.send(JSON.stringify({
-                            type: 'agree sign up',
+                            type: 'accept',
                             data: {
-                                user: {
-                                    
-                                },
-                                userRooms: {
-                                    
-                                }
+                                message: 'Sign up successfully',
+                                userName: user.userName
                             }
                         }, null, 4))
                     }
                     else {
                         ws.send(JSON.stringify({
-                            type: 'deny sign up',
-                            data: {}
+                            type: 'deny',
+                            data: {
+                                message: 'Sign-up failed. Username already taken'
+                            }
                         }, null, 4))
                     }
                     
@@ -84,14 +82,27 @@ wss.on('connection', (ws) => {
                 }
             break 
 
-            case 'log in':
+            case 'log-in':
                 try {
                     const user = await User.findOne({ userName: message.data.userName, userPassword: message.data.userPassword }).exec()
                     
                     if (user != null) {
+                        const rooms = await Room.find({'roomId': {$in: user.userRoomIds}}).exec()
+                        
+                        const roomDetail = rooms.map(room =>({
+                            roomId: room.roomId,
+                            roomMembers: JSON.stringify(room.roomMembers),
+                            content: room.content
+                        }))
+
                         ws.send(JSON.stringify({
                             type: 'accept',
-                            data: 'Log-in successful'
+                            data: { 
+                                message: 'Log-in successful',
+                                userName: user.userName,
+                                isIn: user.userRoomIds,
+                                roomDetail: roomDetail
+                            }
                         }, null, 4))
                     }
                     else {
@@ -117,8 +128,7 @@ wss.on('connection', (ws) => {
                     if (existedRoom == null){
                         const room = new Room({
                             roomId,
-                            roomMembers: [],
-                            // content:
+                            roomMembers: []
                         })
                         await room.save();
 
@@ -161,16 +171,23 @@ wss.on('connection', (ws) => {
 
                             ws.send(JSON.stringify({
                                 type: 'accept',
-                                data: 'Joined room successfully'
-                            }, null, 4))
-
-                            ws.send(JSON.stringify({
-                                type: 'sync',
                                 data: {
-                                    roomMembers: room.roomMembers,
-                                    content: room.content
+                                    message: 'Joined room successfully',
+                                    roomInfo: {
+                                        roomId: room.roomId,
+                                        roomMembers: room.roomMembers,
+                                        content: room.content
+                                    }
                                 }
                             }, null, 4))
+
+                            // ws.send(JSON.stringify({
+                            //     type: 'sync',
+                            //     data: {
+                            //         roomMembers: room.roomMembers,
+                            //         content: room.content
+                            //     }
+                            // }, null, 4))
 
                         } else {
                             ws.send(JSON.stringify({
@@ -267,30 +284,29 @@ wss.on('connection', (ws) => {
         }
     });
 
-    const updateContent = Room.watch();
+    // const updateContent = Room.watch();
 
-    updateContent.on('change', (change) => {
-        switch (change.operationType) {
-            case 'update':
-                const updatedFields = change.updateDescription.updatedFields;
-                if (updatedFields.content != null) {
-                    const roomId = change.documentKey._id;
-                    const newContent = updatedFields.content;
+    // updateContent.on('change', (change) => {
+    //     switch (change.operationType) {
+    //         case 'update':
+    //             const updatedFields = change.updateDescription.updatedFields;
+    //             if (updatedFields.content != null) {
+    //                 const roomId = change.documentKey._id;
+    //                 const newContent = updatedFields.content;
 
-                    // big problem uh oh
-                    wss.clients.forEach(client => {
+    //                 // big problem uh oh
+    //                 wss.clients.forEach(client => {
                         
-                        // if (client.readyState === WebSocket.OPEN) {
-                            client.send(JSON.stringify({
-                                type: 'editor sync',
-                                roomId: roomId,
-                                content: newContent
-                            }));
-                        // }
-                    });
-                }
-                break;
-        }
-    });
+    //                     // if (client.readyState === WebSocket.OPEN) {
+    //                         client.send(JSON.stringify({
+    //                             type: 'editor sync',
+    //                             roomId: roomId,
+    //                             content: newContent
+    //                         }));
+    //                     // }
+    //                 });
+    //             }
+    //             break;
+    //     }
+    // });
 })
-
