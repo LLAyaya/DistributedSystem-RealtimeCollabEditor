@@ -65,9 +65,7 @@ wss.on('connection', (ws) => {
                     else {
                         ws.send(JSON.stringify({
                             type: 'deny sign-up',
-                            data: {
-                                message: 'Sign-up failed. Username already taken'
-                            }
+                            data: 'Sign-up failed. Username already taken'
                         }, null, 4))
                     }
                     
@@ -132,7 +130,7 @@ wss.on('connection', (ws) => {
                         await room.save();
 
                         ws.send(JSON.stringify({
-                            type: 'accept',
+                            type: 'accept create-room',
                             data: {
                                 message: 'Room created successfully',
                                 roomId:   roomId
@@ -140,14 +138,14 @@ wss.on('connection', (ws) => {
                         }, null, 4))
                     } else {
                         ws.send(JSON.stringify({
-                            type: 'deny',
+                            type: 'deny create-room',
                             data: 'Room already exists'
                         }, null, 4))
                     }
                 } catch (err) {
                     console.error(err);
                     ws.send(JSON.stringify({
-                        type: 'deny',
+                        type: 'deny create-room',
                         data: 'Create-room failed. Unexpected error from the server. Please try again'
                     }, null, 4))
                 }
@@ -169,7 +167,7 @@ wss.on('connection', (ws) => {
                             }
 
                             ws.send(JSON.stringify({
-                                type: 'accept',
+                                type: 'accept join-room',
                                 data: {
                                     message: 'Joined room successfully',
                                     roomInfo: {
@@ -190,20 +188,20 @@ wss.on('connection', (ws) => {
 
                         } else {
                             ws.send(JSON.stringify({
-                                type: 'deny',
+                                type: 'deny join-room',
                                 data: 'User already in the room'
                             }, null, 4))
                         }
                     } else {
                         ws.send(JSON.stringify({
-                            type: 'deny',
+                            type: 'deny join-room',
                             data: 'Room not found'
                         }, null, 4))
                     }
                 } catch (err) {
                     console.error(err);
                     ws.send(JSON.stringify({
-                        type: 'deny',
+                        type: 'deny join-room',
                         data: 'Join-room failed. Unexpected error from the server. Please try again'
                     }, null, 4))
                 }
@@ -215,7 +213,7 @@ wss.on('connection', (ws) => {
                     if (room!= null ) {
                         if(!room.roomMembers.includes(message.data.userName)){
                             ws.send(JSON.stringify({
-                                type: 'deny',
+                                type: 'deny edit-content',
                                 data: 'User is not a member of the room'
                             }, null, 4))
                             return
@@ -258,7 +256,7 @@ wss.on('connection', (ws) => {
                         await room.save();
 
                         ws.send(JSON.stringify({
-                            type: 'accept',
+                            type: 'accept edit-content',
                             data: {
                                 message: 'Content updated successfully',
                                 operation:  `${message.data.operation} - '${message.data.content}'`,
@@ -267,14 +265,14 @@ wss.on('connection', (ws) => {
                         }, null, 4))
                     } else {
                         ws.send(JSON.stringify({
-                            type: 'deny',
+                            type: 'deny edit-content',
                             data: 'Room not found'
                         }))
                     }
                 } catch (err) {
                     console.error(err);
                     ws.send(JSON.stringify({
-                        type: 'deny',
+                        type: 'deny edit-content',
                         data: 'Failed to update content. Please try again'
                     },null,4))
                 }

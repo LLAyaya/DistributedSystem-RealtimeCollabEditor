@@ -4,6 +4,7 @@ import { initClient } from './client'
 import Home from './pages/Home'
 import EditorPage from './pages/EditorPage'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import toast from 'react-hot-toast'
 
 function App() {
     const clientControllerRef = useRef(null)

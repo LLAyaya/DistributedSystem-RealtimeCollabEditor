@@ -1,5 +1,6 @@
 import React, { useEffect,  useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import toast, { Toaster } from 'react-hot-toast';
 
 const Home = ({clientControllerRef}) => {
     const navigate = useNavigate()
@@ -10,24 +11,42 @@ const Home = ({clientControllerRef}) => {
     useEffect(() => {
         clientControllerRef.current.onMessageType('accept sign-up', (data) => {
             console.log('throw toast notification pls: ', data.data)
+            toast.success('Successfully sign-up')
         })
     
         clientControllerRef.current.onMessageType('deny sign-up', (data) => {
+            toast.error('Sign-up failed')
             console.log('throw toast notification pls: ', data.data)
+            
         }) 
 
         clientControllerRef.current.onMessageType('accept log-in', (data) => {
-            navigate('/editor', {
-                state: {
-                    userName: data.data.userName,
-                    roomsDetail: data.data.roomDetail
-                }
-            })
+            toast.success('Successfully log-in')
+            setTimeout(() => {
+                navigate('/editor', {
+                    state: {
+                        userName: data.data.userName,
+                        roomsDetail: data.data.roomDetail
+                    }
+                });
+            }, 2000)
         })
 
         clientControllerRef.current.onMessageType('deny log-in', (data) => {
+            toast.error('Log-in failed')
             console.log('throw toast notification pls: ', data.data)
         })
+
+        clientControllerRef.current.onMessageType('accept create-room', (data) =>{
+            toast.success('Created room successfully!')
+            console.log('throw toast notification pls: ', data.data)
+        })
+
+        clientControllerRef.current.onMessageType('deny create-room', (data) =>{
+            toast.error('Create-room falied')
+            console.log('throw toast notification pls: ', data.data)
+        })
+    
     })
     
     const signup = () => {
@@ -41,6 +60,10 @@ const Home = ({clientControllerRef}) => {
     
     return (
         <div className='homePageWrapper'>
+            <Toaster
+                position='top-center'
+                reverseOrder = {false} 
+            />
             <div className='formWrapper'>
                 <h4 className='mainLabel'>Realtime Collaborative Editor</h4>
                 <div className='inputGroup'>
