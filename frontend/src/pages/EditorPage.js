@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation } from "react-router-dom"
 import Room from '../components/Room'
+import Editor from '../components/Editor'
 
 const EditorPage = ({clientControllerRef}) => {
+    const [userName, setUserName] = useState('')
     const [roomsDetail, setRoomsDetail] = useState([])
+    const [selectedRoomDetail, setSelectedRoomDetail] = useState()
 
     const location = useLocation()
     // console.log(location.state?.userName)
@@ -12,13 +15,14 @@ const EditorPage = ({clientControllerRef}) => {
     // console.log(location.state?.roomsDetail)
 
     useEffect(() => {
+        setUserName(location.state?.userName)
         setRoomsDetail(location.state?.roomsDetail)
-    }, [location.state.roomsDetail])
+    }, [location.state.userName, location.state.roomsDetail])
 
 
 
-    const openRoom = (roomId) => {
-        console.log('open room ', roomId)
+    const openRoom = (roomDetail) => {
+        setSelectedRoomDetail(roomDetail)
     }
 
     return (
@@ -30,7 +34,7 @@ const EditorPage = ({clientControllerRef}) => {
                         {roomsDetail.map((roomDetail) => (
                             <Room
                                 key={roomDetail.roomId}
-                                roomId={roomDetail.roomId}
+                                roomDetail={roomDetail}
                                 openRoom={openRoom}
                             />
                         ))}
@@ -141,15 +145,13 @@ const EditorPage = ({clientControllerRef}) => {
                 </button> */}
             </div>
 
-            {/* <div className="editorWrap">
+            <div className="editorWrap">
                 <Editor
-                    socketRef={socketRef}
-                    roomId={roomId}
-                    onCodeChange={(code) => {
-                        codeRef.current = code;
-                    }}
+                    clientControllerRef={clientControllerRef}
+                    roomDetail={selectedRoomDetail}
+                    userName={userName}
                 />
-            </div> */}
+            </div>
         </div>
     )    
 }

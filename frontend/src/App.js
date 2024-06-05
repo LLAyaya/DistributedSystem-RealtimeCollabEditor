@@ -23,15 +23,6 @@ function App() {
                 </Routes>
             </BrowserRouter>
         </>
-        // <div>
-
-            /* <h1>The Editor</h1>
-            <Editor
-                clientControllerRef={clientControllerRef}
-                roomId={123}
-                userName={'Quan'}
-            /> */
-        // </div>
     );
 }
 
