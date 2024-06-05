@@ -283,12 +283,15 @@ wss.on('connection', (ws) => {
 
     const updateContent = Room.watch();
 
-    updateContent.on('change', (change) => {
+    updateContent.on('change', async (change) => {
         switch (change.operationType) {
             case 'update':
                 const updatedFields = change.updateDescription.updatedFields;
                 if (updatedFields.content != null) {
-                    const roomId = change.documentKey._id;
+                    const docId = change.documentKey._id;
+
+                    const room = await Room.findById(docId);
+                    
                     const newContent = updatedFields.content;
 
                     // big problem uh oh
@@ -296,8 +299,8 @@ wss.on('connection', (ws) => {
                         
                         // if (client.readyState === WebSocket.OPEN) {
                             client.send(JSON.stringify({
-                                type: 'editor sync',
-                                roomId: roomId,
+                                type: 'room content sync',
+                                roomId: room.roomId,
                                 content: newContent
                             }));
                         // }

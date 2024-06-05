@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useLocation } from "react-router-dom"
 import Room from '../components/Room'
 import Editor from '../components/Editor'
 
 const EditorPage = ({clientControllerRef}) => {
     const [userName, setUserName] = useState('')
-    const [roomsDetail, setRoomsDetail] = useState([])
+    const roomsDetail = useRef([])
     const [selectedRoomDetail, setSelectedRoomDetail] = useState()
 
     const location = useLocation()
@@ -16,13 +16,26 @@ const EditorPage = ({clientControllerRef}) => {
 
     useEffect(() => {
         setUserName(location.state?.userName)
-        setRoomsDetail(location.state?.roomsDetail)
+        roomsDetail.current = location.state?.roomsDetail
     }, [location.state.userName, location.state.roomsDetail])
-
-
 
     const openRoom = (roomDetail) => {
         setSelectedRoomDetail(roomDetail)
+    }
+
+    clientControllerRef.current.onMessageType('room content sync', (data) => {
+        if (data.content !== null) {
+            onRoomContentSync(data.roomId, data.content)
+        }
+    })
+
+    const onRoomContentSync = (roomId, content) => {
+        roomsDetail.current.forEach((roomDetail) => {
+            console.log(roomDetail.roomId, roomId)
+            if (roomDetail.roomId === roomId) {
+                roomDetail.content = content
+            }
+        })
     }
 
     return (
@@ -31,13 +44,16 @@ const EditorPage = ({clientControllerRef}) => {
                 <div className="asideInner">
                     <h3>Rooms</h3>
                     <div className="roomsList">
-                        {roomsDetail.map((roomDetail) => (
+                        {roomsDetail.current.map((roomDetail) => (
                             <Room
                                 key={roomDetail.roomId}
                                 roomDetail={roomDetail}
                                 openRoom={openRoom}
                             />
                         ))}
+                        <div className='room'>
+                            <button></button>
+                        </div>
                     </div>
                 </div>
 
@@ -148,8 +164,10 @@ const EditorPage = ({clientControllerRef}) => {
             <div className="editorWrap">
                 <Editor
                     clientControllerRef={clientControllerRef}
-                    roomDetail={selectedRoomDetail}
+                    roomsDetail={roomsDetail}
+                    selectedRoomDetail={selectedRoomDetail}
                     userName={userName}
+                    onRoomContentSync={onRoomContentSync}
                 />
             </div>
         </div>
