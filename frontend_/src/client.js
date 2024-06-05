@@ -18,7 +18,7 @@ export const initClient = () => {
 
         signup: function(userName, userPassword) {
             const message = {
-                type: 'sign up',
+                type: 'sign-up',
                 data: {
                     userName: userName,
                     userPassword: userPassword,
@@ -29,7 +29,7 @@ export const initClient = () => {
 
         login: function(userName, userPassword) {
             const message = {
-                type: 'log in',
+                type: 'log-in',
                 data: {
                     userName: userName,
                     userPassword: userPassword,

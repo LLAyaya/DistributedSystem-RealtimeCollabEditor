@@ -41,7 +41,6 @@ wss.on('connection', (ws) => {
     ws.on('message', async (rawMessage) => {
         // console.log(`Received message: ${message}`)
         const message = JSON.parse(rawMessage)
-
         switch(message.type) {
             case 'sign-up':
                 try {
@@ -56,7 +55,7 @@ wss.on('connection', (ws) => {
                         await user.save()
                         
                         ws.send(JSON.stringify({
-                            type: 'accept',
+                            type: 'accept sign-up',
                             data: {
                                 message: 'Sign up successfully',
                                 userName: user.userName
@@ -65,7 +64,7 @@ wss.on('connection', (ws) => {
                     }
                     else {
                         ws.send(JSON.stringify({
-                            type: 'deny',
+                            type: 'deny sign-up',
                             data: {
                                 message: 'Sign-up failed. Username already taken'
                             }
@@ -76,7 +75,7 @@ wss.on('connection', (ws) => {
                 catch (err) {
                     console.error(err);
                     ws.send(JSON.stringify({
-                        type: 'deny',
+                        type: 'deny sign-up',
                         data: 'Sign-up failed. Unexpected error from the server. Please try again'
                     }, null, 4))
                 }
@@ -96,7 +95,7 @@ wss.on('connection', (ws) => {
                         }))
 
                         ws.send(JSON.stringify({
-                            type: 'accept',
+                            type: 'accept log-in',
                             data: { 
                                 message: 'Log-in successful',
                                 userName: user.userName,
@@ -107,7 +106,7 @@ wss.on('connection', (ws) => {
                     }
                     else {
                         ws.send(JSON.stringify({
-                            type: 'deny',
+                            type: 'deny log-in',
                             data: 'Log-in failed. Incorrect username or password'
                         }, null, 4))
                     }
@@ -115,7 +114,7 @@ wss.on('connection', (ws) => {
                 } catch (err) {
                     console.error(err);
                     ws.send(JSON.stringify({
-                        type: 'deny',
+                        type: 'deny log-in',
                         data: 'Log-in failed. Unexpected error from the server. Please try again'
                     }, null, 4))
                 }

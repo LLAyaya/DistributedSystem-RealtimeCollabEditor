@@ -23,7 +23,7 @@ const Editor = ({clientControllerRef, roomId, userName}) => {
                 const {origin} = changes
                 const content = instance.getValue()
                 
-                console.log(content)
+                // console.log(content)
                 // onCodeChange(content)
 
                 if (origin !== 'setValue') {
@@ -33,22 +33,11 @@ const Editor = ({clientControllerRef, roomId, userName}) => {
         }
         init()
 
-        // codeMirrorRef.current.setValue('hello')
-
-        console.log(codeMirrorRef.current)
-
         clientControllerRef.current.onMessageType('editor sync', (data) => {
             if (data.content !== null) {
                 codeMirrorRef.current.setValue(data.content)
             }
         })
-    })
-
-    useEffect(() => {
-        if (clientControllerRef.current) {
-            
-        }
-
     })
     
     return (
