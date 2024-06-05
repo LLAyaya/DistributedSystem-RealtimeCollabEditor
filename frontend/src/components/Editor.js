@@ -4,9 +4,8 @@ import CodeMirror from 'codemirror'
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/theme/material.css'
 import 'codemirror/mode/javascript/javascript'
-// import { decodeAction } from 'next/dist/server/app-render/entry-base'
 
-const Editor = ({clientControllerRef, roomsDetail, selectedRoomDetail, userName, onRoomContentSync}) => {
+const Editor = ({clientControllerRef, roomsDetail, selectedRoomDetail, selectedRoomContent, userName}) => {
     const cursorRef = useRef({line: 0, ch: 0})
     const codeMirrorRef = useRef(null)
 
@@ -36,14 +35,12 @@ const Editor = ({clientControllerRef, roomsDetail, selectedRoomDetail, userName,
             codeMirrorRef.current.setValue('Choose a room and start editing\nAlternatively, join or create a room to get started')
         }  
 
-    }, [clientControllerRef, onRoomContentSync, selectedRoomDetail, userName])
+    }, [clientControllerRef, selectedRoomDetail, userName])
     
     useEffect(() => {
-        if (selectedRoomDetail) {
-            codeMirrorRef.current.setValue(selectedRoomDetail.content)
-            codeMirrorRef.current.setCursor(cursorRef.current)
-        }
-    }, [selectedRoomDetail])
+        codeMirrorRef.current.setValue(selectedRoomContent)
+        codeMirrorRef.current.setCursor(cursorRef.current)
+    }, [selectedRoomContent])
 
     return (
         <textarea id="realtimeEditor"></textarea>

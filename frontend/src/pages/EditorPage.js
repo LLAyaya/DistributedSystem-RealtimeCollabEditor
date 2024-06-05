@@ -7,12 +7,9 @@ const EditorPage = ({clientControllerRef}) => {
     const [userName, setUserName] = useState('')
     const roomsDetail = useRef([])
     const [selectedRoomDetail, setSelectedRoomDetail] = useState()
+    const [selectedRoomContent, setSelectedRoomContent] = useState('')
 
     const location = useLocation()
-    // console.log(location.state?.userName)
-    // console.log('1')
-    // console.log(typeof location.state?.roomsDetail)
-    // console.log(location.state?.roomsDetail)
 
     useEffect(() => {
         setUserName(location.state?.userName)
@@ -31,9 +28,11 @@ const EditorPage = ({clientControllerRef}) => {
 
     const onRoomContentSync = (roomId, content) => {
         roomsDetail.current.forEach((roomDetail) => {
-            console.log(roomDetail.roomId, roomId)
             if (roomDetail.roomId === roomId) {
                 roomDetail.content = content
+            }
+            if (selectedRoomDetail.roomId === roomId) {
+                setSelectedRoomContent(content)
             }
         })
     }
@@ -166,8 +165,8 @@ const EditorPage = ({clientControllerRef}) => {
                     clientControllerRef={clientControllerRef}
                     roomsDetail={roomsDetail}
                     selectedRoomDetail={selectedRoomDetail}
+                    selectedRoomContent={selectedRoomContent}
                     userName={userName}
-                    onRoomContentSync={onRoomContentSync}
                 />
             </div>
         </div>
