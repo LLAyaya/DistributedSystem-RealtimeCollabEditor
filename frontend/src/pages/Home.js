@@ -23,6 +23,7 @@ const Home = ({clientControllerRef}) => {
         clientControllerRef.current.onMessageType('accept log-in', (data) => {
             toast.success('Successfully log-in')
             setTimeout(() => {
+                console.log('throw toast notification pls: ', data.data)
                 navigate('/editor', {
                     state: {
                         userName: data.data.userName,
