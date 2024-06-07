@@ -91,6 +91,8 @@ wss.on('connection', (ws) => {
                             roomMembers: room.roomMembers,
                             content: room.content
                         }))
+                        
+                        console.log(roomDetail)
 
                         ws.send(JSON.stringify({
                             type: 'accept log-in',
@@ -121,7 +123,9 @@ wss.on('connection', (ws) => {
             case 'create-room':
                 try{
                     const existedRoom = await Room.findOne({ roomId: message.data.roomId }).exec()
+                    const user = await User.findOne({userName: message.data.userName}).exec()
                     let roomId = message.data.roomId || Math.floor(Math.random() * 1000000);
+                    
                     if (existedRoom == null){
                         const room = new Room({
                             roomId,
@@ -129,11 +133,19 @@ wss.on('connection', (ws) => {
                         })
                         await room.save();
 
+                        
+                        if (!user.userRoomIds.includes(message.data.roomId)){
+                            user.userRoomIds.push(message.data.roomId);
+                            await user.save();
+                        }
+
                         ws.send(JSON.stringify({
                             type: 'accept create-room',
                             data: {
                                 message: 'Room created successfully',
-                                roomId:   roomId
+                                roomId:   roomId,
+                                roomContent: content,
+                                roomMembers: roomMembers
                             }
                         }, null, 4))
                     } else {
