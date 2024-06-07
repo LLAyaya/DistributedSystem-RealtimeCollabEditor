@@ -140,24 +140,26 @@ wss.on('connection', (ws) => {
                         }
 
                         ws.send(JSON.stringify({
-                            type: 'accept create-room',
+                            type: 'accept create room',
                             data: {
                                 message: 'Room created successfully',
-                                roomId:   roomId,
-                                roomContent: content,
-                                roomMembers: roomMembers
+                                roomDetail: {
+                                    roomId: roomId,
+                                    roomContent: content,
+                                    roomMembers: roomMembers
+                                }
                             }
                         }, null, 4))
                     } else {
                         ws.send(JSON.stringify({
-                            type: 'deny create-room',
+                            type: 'deny create room',
                             data: 'Room already exists'
                         }, null, 4))
                     }
                 } catch (err) {
                     console.error(err);
                     ws.send(JSON.stringify({
-                        type: 'deny create-room',
+                        type: 'deny create room',
                         data: 'Create-room failed. Unexpected error from the server. Please try again'
                     }, null, 4))
                 }

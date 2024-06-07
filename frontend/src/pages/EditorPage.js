@@ -44,6 +44,10 @@ const EditorPage = ({clientControllerRef}) => {
         }
     });
 
+    clientControllerRef.current.onMessageType('accept create room', (data) => {
+        roomsDetail.current.push(data.roomDetail)
+    });
+
     const onRoomContentSync = (roomId, content) => {
         roomsDetail.current.forEach((roomDetail) => {
             if (roomDetail.roomId === roomId) {
