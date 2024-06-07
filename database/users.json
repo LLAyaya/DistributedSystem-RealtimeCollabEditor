@@ -17,11 +17,9 @@
   "userName": "Quan",
   "userPassword": "1231231",
   "userRoomIds": [
-    1,
-    186589,
-    649130,
     36088,
-    500857
+    500857,
+    563670
   ],
   "__v": 5
 },
@@ -31,7 +29,9 @@
   },
   "userName": "TuilaBIBI",
   "userPassword": "weiwaiweiwai",
-  "userRoomIds": [],
+  "userRoomIds": [
+    36088
+  ],
   "__v": 0
 },
 {

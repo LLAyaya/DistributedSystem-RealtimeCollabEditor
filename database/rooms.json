@@ -4,15 +4,9 @@
   },
   "roomId": 36088,
   "roomMembers": [
-    {
-      "$oid": "66558e0ed4bc4c584aa9ea5f"
-    },
-    {
-      "$oid": "66558a6732c43e48f5a24888"
-    },
-    {
-      "$oid": "6659fa997f082de1bca4aac1"
-    }
+    "Thong",
+    "Quan",
+    "TuilaBIBI"
   ],
   "content": " hoi cham hello world hoi cham hoi cham",
   "__v": 3
@@ -23,9 +17,7 @@
   },
   "roomId": 563670,
   "roomMembers": [
-    {
-      "$oid": "6659fa997f082de1bca4aac1"
-    }
+    "Quan"
   ],
   "content": " hoi cham",
   "__v": 1
