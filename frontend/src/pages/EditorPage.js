@@ -4,6 +4,7 @@ import Room from '../components/Room';
 import Editor from '../components/Editor';
 import Member from '../components/Member';
 import User from '../components/User';
+import Popup from '../components/Popup';
 import toast from 'react-hot-toast';
 
 const EditorPage = ({clientControllerRef}) => {
@@ -14,6 +15,7 @@ const EditorPage = ({clientControllerRef}) => {
     const [selectedRoomDetail, setSelectedRoomDetail] = useState();
     const [selectedRoomContent, setSelectedRoomContent] = useState('');
     const [isRoomSelected, setIsRoomSelected] = useState(false); 
+    const [buttonPopup, setButtonPopup] = useState(false);
 
     const location = useLocation();
 
@@ -22,9 +24,6 @@ const EditorPage = ({clientControllerRef}) => {
         roomsDetail.current = location.state?.roomsDetail;
     }, [location.state.userName, location.state.roomsDetail]);
 
-    const createRoom = () => {
-        clientControllerRef.current.createRoom();
-    };
 
     const changeTheme = (newTheme) => {
         document.documentElement.setAttribute('data-theme', newTheme);
@@ -56,6 +55,23 @@ const EditorPage = ({clientControllerRef}) => {
         });
     };
 
+    const createRoom = () => {
+        const roomId = Math.floor(Math.random() * 1000000);
+        const newRoomDetail = {
+            roomId: roomId,
+            roomName: `Room ${roomId}`, // Assuming you want to name the room like this
+            content: '', // Initial content can be empty or some default value
+            roomMembers: [userName] // Initially, the creator is the only member
+        };
+    
+        // Update the roomsDetail array
+        roomsDetail.current = [...roomsDetail.current, newRoomDetail];
+        setSelectedRoomDetail(newRoomDetail); // Optionally select the new room
+        setIsRoomSelected(true); // Set room as selected
+    
+        clientControllerRef.current.createRoom(roomId, userName);
+    };
+
     async function copyRoomId() {
         try {
             await navigator.clipboard.writeText(selectedRoomDetail.roomId);
@@ -71,7 +87,11 @@ const EditorPage = ({clientControllerRef}) => {
             <div className="aside">
                 <div className="asideInner">
                     <User userName={userName}></User>
+
+                    <div className='divider1'></div>
+
                     <h3>Rooms</h3>
+                    
                     <div className="roomsList">
                         {roomsDetail.current.map((roomDetail) => (
                             <Room
@@ -83,33 +103,11 @@ const EditorPage = ({clientControllerRef}) => {
                         <div className='room'></div>
                     </div>
 
-                    <div className='divider'></div>
-                    <button
-                        style={{
-                            width: '65px', 
-                            height: '65px',
-                            backgroundColor: '#5B6CF7',
-                            color: 'white',
-                            fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif',
-                            fontSize: '16px',
-                            fontWeight: 500,
-                            border: 'none',
-                            borderRadius: '50%',
-                            padding: '0', 
-                            cursor: 'pointer',
-                            transition: 'background-color 0.3s',
-                            display: 'flex', 
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            textAlign: 'center', 
-                            display: 'flex',
-                        }}
-                        onClick={createRoom}
-                        onMouseEnter={(e) => e.target.style.backgroundColor = '#4052EC'}
-                        onMouseLeave={(e) => e.target.style.backgroundColor = '#5B6CF7'}
-                    >
-                        New Room
-                    </button>
+                    <div className='divider2'></div>
+
+                    <button className='styleBtn' onClick={()=> setButtonPopup(true)}>New room</button>
+                    <Popup trigger={buttonPopup} setTrigger={setButtonPopup} onCreateRoom={createRoom}>
+                    </Popup>
 
                 </div>
                 
@@ -229,7 +227,10 @@ const EditorPage = ({clientControllerRef}) => {
                         </select>
                     </label>
 
+                    <div className='divider1'></div>
+
                     <h3>Members</h3>
+
                     <div className="roomsList">
                         {console.log('yo', selectedRoomDetail.roomMembers)}
                         {selectedRoomDetail.roomMembers.map((memberName) => (
@@ -240,32 +241,9 @@ const EditorPage = ({clientControllerRef}) => {
                         ))}
                     </div>
                     
-                    <div 
-                        style={{
-                            width: '70%',
-                            height: '5px',
-                            backgroundColor: '#ccc',
-                            margin: '10px 0' 
-                        }}
-                    ></div>
+                    <div className='divider2'></div>
 
-                    <button
-                        style={{
-                            backgroundColor: '#5B6CF7',
-                            color: 'white',
-                            fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif',
-                            fontSize: '18px',
-                            fontWeight: 500,
-                            border: 'none',
-                            borderRadius: '40px',
-                            padding: '8px 16px',
-                            cursor: 'pointer',
-                            transition: 'background-color 0.3s',
-                            textAlign: 'center'
-                        }}
-                        onClick={() => copyRoomId()}
-                        onMouseEnter={(e) => e.target.style.backgroundColor = '#4052EC'}
-                        onMouseLeave={(e) => e.target.style.backgroundColor = '#5B6CF7'}
+                    <button className='styleBtn'onClick={() => copyRoomId()}                     
                     >
                         Copy ID
                     </button>

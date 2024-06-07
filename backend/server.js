@@ -88,7 +88,7 @@ wss.on('connection', (ws) => {
                         
                         const roomDetail = rooms.map(room =>({
                             roomId: room.roomId,
-                            roomMembers: JSON.stringify(room.roomMembers),
+                            roomMembers: room.roomMembers,
                             content: room.content
                         }))
 
@@ -125,7 +125,7 @@ wss.on('connection', (ws) => {
                     if (existedRoom == null){
                         const room = new Room({
                             roomId,
-                            roomMembers: []
+                            roomMembers: [message.data.userName]
                         })
                         await room.save();
 

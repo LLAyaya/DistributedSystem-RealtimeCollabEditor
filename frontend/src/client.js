@@ -38,11 +38,12 @@ export const initClient = () => {
             rws.send(JSON.stringify(message))
         },
 
-        createRoom: function(roomId) {
+        createRoom: function(roomId, userName) {
             const message = {
                 type: 'create-room',
                 data: {
-                    roomId: roomId
+                    roomId: roomId,
+                    userName: userName
                 }
             }
             rws.send(JSON.stringify(message))
