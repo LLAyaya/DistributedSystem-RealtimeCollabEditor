@@ -55,8 +55,9 @@ const EditorPage = ({clientControllerRef}) => {
         });
     };
 
-    const createRoom = () => {
-        const roomId = Math.floor(Math.random() * 1000000);
+    const createRoom = (desiredRoomIdString) => {
+        const desiredRoomId = Number(desiredRoomIdString)
+        const roomId = (desiredRoomIdString !== '' && !isNaN(desiredRoomId)) ? desiredRoomId : Math.floor(Math.random() * 1000000);
         const newRoomDetail = {
             roomId: roomId,
             roomName: `Room ${roomId}`, // Assuming you want to name the room like this
