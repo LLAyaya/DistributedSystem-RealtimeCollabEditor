@@ -255,19 +255,39 @@ footer a:hover {
     width: 90%;
     padding: 8px;
     margin-top: 5px;
-    border: 1px solid #ccc;
+    border: none;
     border-radius: 20px;
-    background-color: white;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    background-color: #3f46d9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: border-color 0.3s;
     font-weight: bold;
     font-size: 13px;
     text-align: center;
+    color: #fff; /* Change text color */
+    opacity: 0.8; /* Change opacity */
 }
 
 .languageSelector select:focus {
     border-color: #5B6CF7;
     outline: none;
+}
+
+/* Dropdown menu styling */
+.languageSelector select option {
+    background-color: whitesmoke; /* Change background color of options */    
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: #333; /* Change text color of options */
+}
+
+/* Change background color and text color of selected option */
+.languageSelector select option:checked {
+    background-color: #5B6CF7; /* Change background color of selected option */
+    color: white; /* Change text color of selected option */
+}
+
+.languageSelector select:hover option:hover {
+    background-color: #3572EF; /* Change hover background color */
+    color: #000; /* Change hover text color */
 }
 
 .themeSelector {
@@ -428,14 +448,14 @@ footer a:hover {
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
     max-width: 400px; 
     max-height: 10.5vh; 
-    width: 80%; 
+    width: 100%;
     height: 60%; 
-    overflow: auto; 
+    overflow: hidden;
 }
 
 .popup-inner .close-btn {
     position: absolute;
-    top: 390px;
+    top: 382px;
     right: 715px; 
     cursor: pointer; 
     font-size: 23px;
@@ -443,11 +463,16 @@ footer a:hover {
     width: 34px;
     height: 34px; 
     border-radius: 40%; 
-    background-color: #fff; 
-    border: 2px solid #000; 
+    background-color: #fff;
+    border: none; 
     text-align: center; 
     line-height: 29px; 
 
+}
+
+.close-icon {
+    width: 20px;
+    height: 20px;
 }
 
 .styleBtn {

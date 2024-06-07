@@ -77,7 +77,7 @@ const Home = ({clientControllerRef}) => {
                         // onKeyUp={handleInputEnter}
                     />
                     <input
-                        type='text'
+                        type='password'
                         className='inputBox'
                         placeholder='Password'
                         onChange={(e) => setUserPassword(e.target.value)}
