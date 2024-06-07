@@ -5,10 +5,10 @@ const RoomSchema = new mongoose.Schema({
         type: Number, 
         unique: true, 
         required: true },
-    roomMembers: [{
-        type: String,
+    roomMembers: {
+        type: [String],
         ref: 'users'
-    }],
+    },
     content: {
         type: String,
         default: ""

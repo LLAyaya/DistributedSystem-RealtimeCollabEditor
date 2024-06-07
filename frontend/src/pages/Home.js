@@ -30,7 +30,7 @@ const Home = ({clientControllerRef}) => {
                         roomsDetail: data.data.roomDetail
                     }
                 });
-            }, 2000)
+            }, 1000)
         })
 
         clientControllerRef.current.onMessageType('deny log-in', (data) => {
