@@ -48,6 +48,21 @@ const EditorPage = ({clientControllerRef}) => {
         roomsDetail.current.push(data.roomDetail)
     });
 
+    
+    clientControllerRef.current.onMessageType('accept join-room', (data) => {
+        const newRoomDetail = data.data.roomInfo;
+        
+        roomsDetail.current = roomsDetail.current.map(room => 
+            room.roomId === newRoomDetail.roomId ? newRoomDetail : room
+        );
+        
+        if (!roomsDetail.current.find(room => room.roomId === newRoomDetail.roomId)) {
+            roomsDetail.current.push(newRoomDetail);
+        }
+        setSelectedRoomDetail(newRoomDetail);
+        setIsRoomSelected(true);
+    });
+
     const onRoomContentSync = (roomId, content) => {
         roomsDetail.current.forEach((roomDetail) => {
             if (roomDetail.roomId === roomId) {
@@ -64,17 +79,21 @@ const EditorPage = ({clientControllerRef}) => {
         const roomId = (desiredRoomIdString !== '' && !isNaN(desiredRoomId)) ? desiredRoomId : Math.floor(Math.random() * 1000000);
         const newRoomDetail = {
             roomId: roomId,
-            roomName: `Room ${roomId}`, // Assuming you want to name the room like this
-            content: '', // Initial content can be empty or some default value
-            roomMembers: [userName] // Initially, the creator is the only member
+            roomName: `Room ${roomId}`, 
+            content: '', 
+            roomMembers: [userName] 
         };
     
         // Update the roomsDetail array
         roomsDetail.current = [...roomsDetail.current, newRoomDetail];
-        setSelectedRoomDetail(newRoomDetail); // Optionally select the new room
-        setIsRoomSelected(true); // Set room as selected
+        setSelectedRoomDetail(newRoomDetail); 
+        setIsRoomSelected(true); 
     
         clientControllerRef.current.createRoom(roomId, userName);
+    };
+
+    const joinRoom = async (roomId) => {
+        clientControllerRef.current.joinRoom(roomId, userName);
     };
 
     async function copyRoomId() {
@@ -111,7 +130,8 @@ const EditorPage = ({clientControllerRef}) => {
                     <div className='divider2'></div>
 
                     <button className='styleBtn' onClick={()=> setButtonPopup(true)}>New room</button>
-                    <Popup trigger={buttonPopup} setTrigger={setButtonPopup} onCreateRoom={createRoom}>
+                    <Popup trigger={buttonPopup} setTrigger={setButtonPopup} 
+                    onCreateRoom={createRoom} onJoinRoom={joinRoom}>
                     </Popup>
 
                 </div>

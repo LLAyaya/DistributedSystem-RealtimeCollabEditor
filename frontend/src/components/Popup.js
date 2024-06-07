@@ -26,7 +26,7 @@ function Popup (props) {
                     <button className="btn joinBtn" onClick={() => props.onCreateRoom(roomId)}>
                         Create
                     </button>
-                    <button className="btn joinBtn" onClick={props.onCreateRoom}>
+                    <button className="btn joinBtn" onClick={() => props.onJoinRoom(roomId)}>
                         Join
                     </button>
                 </div>
