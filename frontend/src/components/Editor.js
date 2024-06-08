@@ -128,6 +128,7 @@ const Editor = ({clientControllerRef, roomsDetail, selectedRoomDetail, selectedR
     useEffect(() => {
         codeMirrorRef.current.setValue(selectedRoomContent)
         codeMirrorRef.current.setCursor(cursorRef.current)
+        
     }, [selectedRoomContent])
 
     return (

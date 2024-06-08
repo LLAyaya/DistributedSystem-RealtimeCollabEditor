@@ -257,7 +257,7 @@ footer a:hover {
     margin-top: 5px;
     border: none;
     border-radius: 20px;
-    background-color: #3f46d9;
+    background-color: #21222c;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: border-color 0.3s;
     font-weight: bold;
@@ -265,29 +265,33 @@ footer a:hover {
     text-align: center;
     color: #fff; /* Change text color */
     opacity: 0.8; /* Change opacity */
+    outline:none;
 }
 
 .languageSelector select:focus {
-    border-color: #5B6CF7;
-    outline: none;
+    border-color: #373949;
+}
+
+.languageSelector select:hover {
+    background-color: #373949;
 }
 
 /* Dropdown menu styling */
 .languageSelector select option {
-    background-color: whitesmoke; /* Change background color of options */    
+    background-color: #16171d; /* Change background color of options */    
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    color: #333; /* Change text color of options */
+    color: #DCDCDC; /* Change text color of options */
+    opacity: 0.8; /* Change opacity */
+    text-align: left;
 }
 
 /* Change background color and text color of selected option */
 .languageSelector select option:checked {
-    background-color: #5B6CF7; /* Change background color of selected option */
-    color: white; /* Change text color of selected option */
+    background-color: #2c2d3b; /* Change background color of selected option */
 }
 
 .languageSelector select:hover option:hover {
-    background-color: #3572EF; /* Change hover background color */
-    color: #000; /* Change hover text color */
+    background-color: #2c2d3b !important;
 }
 
 .themeSelector {
@@ -304,22 +308,44 @@ footer a:hover {
     width: 90%;
     padding: 8px;
     margin-top: 5px;
-    border: 1px solid #ccc;
+    border: none;
     border-radius: 20px;
-    background-color: white;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    background-color: #21222c;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: border-color 0.3s;
     font-weight: bold;
     font-size: 13px;
     text-align: center;
+    color: #fff; /* Change text color */
+    opacity: 0.8; /* Change opacity */
+    outline:none;
 }
 
 .themeSelector select:focus {
-    border-color: #5B6CF7;
-    outline: none;
+    border-color: #373949;
 }
 
+.themeSelector select:hover {
+    background-color: #373949;
+}
 
+/* Dropdown menu styling */
+.themeSelector select option {
+    background-color: #16171d; /* Change background color of options */    
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: #DCDCDC; /* Change text color of options */
+    opacity: 0.8; /* Change opacity */
+    text-align: left;
+}
+
+/* Change background color and text color of selected option */
+.themeSelector select option:checked {
+    background-color: #2c2d3b; /* Change background color of selected option */
+}
+
+.themeSelector select:hover option:hover {
+    background-color: #2c2d3b; /* Change hover background color */
+}
 
 .divider1 {
     width: 100px;

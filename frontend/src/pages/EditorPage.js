@@ -8,7 +8,7 @@ import Popup from '../components/Popup';
 import toast from 'react-hot-toast';
 
 const EditorPage = ({clientControllerRef}) => {
-    const [lang, setLang] = useState('javascript');
+    const [lang, setLang] = useState('');
     const [them, setThem] = useState('default')
     const [userName, setUserName] = useState('');
     const roomsDetail = useRef([]);
@@ -157,7 +157,7 @@ const EditorPage = ({clientControllerRef}) => {
                     ></div>
 
                     <label className="languageSelector">
-                        Language:
+                        Language
                         <select value={lang} onChange={(e) => {setLang(e.target.value);}}>
                             <option value="clike">C / C++ / C# / Java</option>
                             <option value="css">CSS</option>
@@ -184,7 +184,7 @@ const EditorPage = ({clientControllerRef}) => {
                     </label>
 
                     <label className="themeSelector">
-                        Theme:
+                        Theme
                         <select value={them} onChange={(e) => changeTheme(e.target.value)} className="seLang">
                             <option value="default">default</option>
                             <option value="3024-day">3024-day</option>
