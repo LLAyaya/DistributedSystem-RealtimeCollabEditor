@@ -79,6 +79,21 @@ export const initClient = () => {
         }
     }
 
+    // editContent: function(roomId, userName, operation, char, line , col) {
+    //     const message = {
+    //         type: 'edit-content',
+    //         data: {
+    //             roomId: roomId,
+    //             userName: userName,
+    //             operation: operation,
+    //             char: char,
+    //             line: line,
+    //             col: col,        
+    //         }
+    //     }
+    //     rws.send(JSON.stringify(message))
+    // },
+
     rws.onmessage = (message) => {
         const data = JSON.parse(message.data)
 
@@ -109,6 +124,10 @@ export const initClient = () => {
 // rwsController.joinRoom(500857, 'Quan')
 
 // rwsController.editContent(500857, 'Quan', 'add', ' a')
+
+// rwsController.editContent(549976, 'Thong', 'add', 'l', 0 , 2)
+
+// rwsController.editContent(36088, 'Thong', 'delete','', 0 , 1)
 
 // setTimeout(() => {
 //     rwsController.editContent(500857, 'Quan', 'add', ' b')

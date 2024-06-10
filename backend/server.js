@@ -232,6 +232,56 @@ wss.on('connection', (ws) => {
                             }, null, 4))
                             return
                         }
+
+
+                        // Operational Transformation (add, delete)
+
+                        // const {char, line, col } = message.data;
+                        // const extractedLine = room.content.split('\n');
+
+                        // switch (message.data.operation) {
+                        //     case 'add':
+                        //         if (line < extractedLine.length) {
+                        //             const targetLine = extractedLine[line];
+                        //             if (col <= targetLine.length) {
+                        //                 extractedLine[line] = targetLine.slice(0, col) + char + targetLine.slice(col);
+                        //                 room.content = extractedLine.join('\n');
+                        //             } else {
+                        //                 ws.send(JSON.stringify({
+                        //                     type: 'deny edit-content',
+                        //                     data: 'Invalid column position'
+                        //                 }, null, 4));
+                        //                 return;
+                        //             }
+                        //         } else {
+                        //             ws.send(JSON.stringify({
+                        //                 type: 'deny edit-content',
+                        //                 data: 'Invalid line position'
+                        //             }, null, 4));
+                        //             return;
+                        //         }
+                        //         break
+                                    
+                        //     case 'delete': 
+                        //         if (line < extractedLine.length) {
+                        //             const targetLine = extractedLine[line];
+                        //             if (col > 0) {
+                        //                 extractedLine[line] = targetLine.slice(0, col - 1) + targetLine.slice(col);
+                        //             } else if (line > 0) {
+                        //                 const previousLine = extractedLine[line - 1];
+                        //                 extractedLine[line - 1] = previousLine + targetLine;
+                        //                 extractedLine.splice(line, 1);
+                        //             }
+                        //             room.content = extractedLine.join('\n');
+                        //         } else {
+                        //             ws.send(JSON.stringify({
+                        //                 type: 'deny edit-content',
+                        //                 data: 'Invalid line position'
+                        //             }, null, 4));
+                        //             return;
+                        //         }
+                        //         break
+
                         
                         switch (message.data.operation) {
                             case 'add':
