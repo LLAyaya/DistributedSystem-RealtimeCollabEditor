@@ -60,18 +60,33 @@ export const initClient = () => {
             rws.send(JSON.stringify(message))
         },
 
-        editContent: function(roomId, userName, operation, content) {
-            const message = {
-                type: 'edit-content',
-                data: {
-                    roomId: roomId,
-                    userName: userName,
-                    operation: operation,
-                    content: content        
+        // editContent: function(roomId, userName, operation, content) {
+        //     const message = {
+        //         type: 'edit-content',
+        //         data: {
+        //             roomId: roomId,
+        //             userName: userName,
+        //             operation: operation,
+        //             content: content        
+        //         }
+        //     }
+        //     rws.send(JSON.stringify(message))
+        // },
+
+        editContent: function(roomId, userName, operation, char, line , col) {
+                const message = {
+                    type: 'edit-content',
+                    data: {
+                        roomId: roomId,
+                        userName: userName,
+                        operation: operation,
+                        char: char,
+                        line: line,
+                        col: col,        
+                    }
                 }
-            }
-            rws.send(JSON.stringify(message))
-        },
+                rws.send(JSON.stringify(message))
+            },
 
         _messageCallbacks: {},
         onMessageType: function(messageType, callback) {
@@ -79,20 +94,7 @@ export const initClient = () => {
         }
     }
 
-    // editContent: function(roomId, userName, operation, char, line , col) {
-    //     const message = {
-    //         type: 'edit-content',
-    //         data: {
-    //             roomId: roomId,
-    //             userName: userName,
-    //             operation: operation,
-    //             char: char,
-    //             line: line,
-    //             col: col,        
-    //         }
-    //     }
-    //     rws.send(JSON.stringify(message))
-    // },
+    
 
     rws.onmessage = (message) => {
         const data = JSON.parse(message.data)
@@ -109,7 +111,7 @@ export const initClient = () => {
     return rwsController
 }
 
-// const rwsController = await initClient()
+const rwsController = await initClient()
 
 // Example usage
 
@@ -125,7 +127,7 @@ export const initClient = () => {
 
 // rwsController.editContent(500857, 'Quan', 'add', ' a')
 
-// rwsController.editContent(549976, 'Thong', 'add', 'l', 0 , 2)
+rwsController.editContent(1, 'Quan', 'add', '0', 3 , 0)
 
 // rwsController.editContent(36088, 'Thong', 'delete','', 0 , 1)
 
