@@ -93,8 +93,6 @@ wss.on('connection', (ws) => {
                             roomMembers: room.roomMembers,
                             content: room.content
                         }))
-                        
-                        console.log(roomDetail)
 
                         ws.send(JSON.stringify({
                             type: 'accept log-in',
@@ -236,7 +234,6 @@ wss.on('connection', (ws) => {
                     const room = await Room.findOne({roomId: message.data.roomId}).exec()
                     if (room != null ) {
                         if(!room.roomMembers.some(roomMember => roomMember.name === message.data.userName)) {
-                            console.log(message.data.name)
                             ws.send(JSON.stringify({
                                 type: 'deny edit-content',
                                 data: 'User is not a member of the room'
@@ -248,15 +245,18 @@ wss.on('connection', (ws) => {
                         // Operational Transformation (add, delete)
 
                         const {char, line, col } = message.data;
-                        const extractedLine = room.content.split('\n');
+                        const extractedLines = room.content.split('\n');
 
                         switch (message.data.operation) {
                             case 'add':
-                                if (line < extractedLine.length) {
-                                    const targetLine = extractedLine[line];
+                                if (char === '\n') {
+                                    room.content = extractedLines.join('\n') + '\n'
+                                }
+                                else if (line < extractedLines.length) {
+                                    const targetLine = extractedLines[line]
                                     if (col <= targetLine.length) {
-                                        extractedLine[line] = targetLine.slice(0, col) + char + targetLine.slice(col);
-                                        room.content = extractedLine.join('\n');
+                                        extractedLines[line] = targetLine.slice(0, col) + char + targetLine.slice(col);
+                                        room.content = extractedLines.join('\n');
                                     } else {
                                         ws.send(JSON.stringify({
                                             type: 'deny edit-content',
@@ -264,7 +264,8 @@ wss.on('connection', (ws) => {
                                         }, null, 4));
                                         return;
                                     }
-                                } else {
+                                }
+                                else {
                                     ws.send(JSON.stringify({
                                         type: 'deny edit-content',
                                         data: 'Invalid line position'
@@ -274,16 +275,16 @@ wss.on('connection', (ws) => {
                                 break
                                     
                             case 'delete': 
-                                if (line < extractedLine.length) {
-                                    const targetLine = extractedLine[line];
+                                if (line < extractedLines.length) {
+                                    const targetLine = extractedLines[line];
                                     if (col > 0) {
-                                        extractedLine[line] = targetLine.slice(0, col - 1) + targetLine.slice(col);
+                                        extractedLines[line] = targetLine.slice(0, col - 1) + targetLine.slice(col);
                                     } else if (line > 0) {
-                                        const previousLine = extractedLine[line - 1];
-                                        extractedLine[line - 1] = previousLine + targetLine;
-                                        extractedLine.splice(line, 1);
+                                        const previousLine = extractedLines[line - 1];
+                                        extractedLines[line - 1] = previousLine + targetLine;
+                                        extractedLines.splice(line, 1);
                                     }
-                                    room.content = extractedLine.join('\n');
+                                    room.content = extractedLines.join('\n');
                                 } else {
                                     ws.send(JSON.stringify({
                                         type: 'deny edit-content',

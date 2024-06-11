@@ -27,7 +27,6 @@ const Home = ({clientControllerRef}) => {
                         roomsDetail: data.data.roomDetail
                     }
                 });
-                console.log(data.data.roomDetail)
             }, 1000)
         })
 
@@ -37,12 +36,10 @@ const Home = ({clientControllerRef}) => {
 
         clientControllerRef.current.onMessageType('accept create-room', (data) =>{
             toast.success('Created room successfully!')
-            console.log('throw toast notification pls: ', data.data)
         })
 
         clientControllerRef.current.onMessageType('deny create-room', (data) =>{
-            toast.error('Create-room falied')
-            console.log('throw toast notification pls: ', data.data)
+            toast.error('Create-room failed,', data.data)
         })
     
     })

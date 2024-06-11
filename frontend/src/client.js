@@ -111,7 +111,7 @@ export const initClient = () => {
     return rwsController
 }
 
-const rwsController = await initClient()
+// const rwsController = await initClient()
 
 // Example usage
 
@@ -127,7 +127,7 @@ const rwsController = await initClient()
 
 // rwsController.editContent(500857, 'Quan', 'add', ' a')
 
-rwsController.editContent(1, 'Quan', 'add', '0', 3 , 0)
+// rwsController.editContent(1, 'Quan', 'add', '0', 3 , 0)
 
 // rwsController.editContent(36088, 'Thong', 'delete','', 0 , 1)
 

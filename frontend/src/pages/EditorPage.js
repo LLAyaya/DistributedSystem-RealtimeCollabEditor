@@ -35,7 +35,6 @@ const EditorPage = ({clientControllerRef}) => {
     
     const openRoom = (roomDetail) => {
         setSelectedRoomDetail(roomDetail);
-        console.log(roomDetail)
         setIsRoomSelected(true);
 
     };
@@ -359,7 +358,6 @@ const EditorPage = ({clientControllerRef}) => {
                     <h3>Members</h3>
 
                     <div className="roomsList">
-                        {console.log(selectedRoomDetail)}
                         {selectedRoomDetail.roomMembers.map((member) => (
                             <Member
                                 key={member.name}

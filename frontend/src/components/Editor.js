@@ -213,10 +213,15 @@ const Editor = ({clientControllerRef, roomsDetail, selectedRoomDetail, selectedR
 
                 switch (origin) {
                     case '+delete':
-                        console.log('delete char')
+                        // console.log('delete')
+                        clientControllerRef.current.editContent(selectedRoomDetail.roomId, userName, 'delete', '',
+                                cursorRef.current.line, cursorRef.current.ch)
                         break
                     case '+input':
-                        console.log('add char', changes.text[0])
+                        const char = changes.text.length === 1 ? changes.text[0] : '\n'
+                        clientControllerRef.current.editContent(selectedRoomDetail.roomId, userName, 'add', char,
+                                cursorRef.current.line, cursorRef.current.ch)
+                        break
                     case 'setValue':
                         break
                     default:
@@ -225,14 +230,14 @@ const Editor = ({clientControllerRef, roomsDetail, selectedRoomDetail, selectedR
                 }
 
                 if (origin !== 'setValue') {
-                    clientControllerRef.current.editContent(selectedRoomDetail.roomId, userName, 'update', content)
+                    // clientControllerRef.current.editContent(selectedRoomDetail.roomId, userName, 'update', content)
                     cursorRef.current = codeMirrorRef.current.getCursor()
                 }
             })
 
-            codeMirrorRef.current.on('cursorActivity', (instance) => {
-                console.log('move')
-            })
+            // codeMirrorRef.current.on('cursorActivity', (instance) => {
+                // console.log('move')
+            // })
         }
         else {
             codeMirrorRef.current.setValue('Choose a room and start editing\nAlternatively, join or create a room to get started')
