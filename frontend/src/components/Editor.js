@@ -211,10 +211,27 @@ const Editor = ({clientControllerRef, roomsDetail, selectedRoomDetail, selectedR
                 const {origin} = changes
                 const content = instance.getValue()
 
+                switch (origin) {
+                    case '+delete':
+                        console.log('delete char')
+                        break
+                    case '+input':
+                        console.log('add char', changes.text[0])
+                    case 'setValue':
+                        break
+                    default:
+                        console.log('unsupported input type:', origin)
+                        break
+                }
+
                 if (origin !== 'setValue') {
                     clientControllerRef.current.editContent(selectedRoomDetail.roomId, userName, 'update', content)
                     cursorRef.current = codeMirrorRef.current.getCursor()
                 }
+            })
+
+            codeMirrorRef.current.on('cursorActivity', (instance) => {
+                console.log('move')
             })
         }
         else {

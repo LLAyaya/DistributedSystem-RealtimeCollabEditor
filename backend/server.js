@@ -86,6 +86,8 @@ wss.on('connection', (ws) => {
                     if (user != null) {
                         const rooms = await Room.find({'roomId': {$in: user.userRoomIds}}).exec()
                         
+                        // console.log(rooms)
+
                         const roomDetail = rooms.map(room =>({
                             roomId: room.roomId,
                             roomMembers: room.roomMembers,
@@ -129,7 +131,11 @@ wss.on('connection', (ws) => {
                     if (existedRoom == null){
                         const room = new Room({
                             roomId,
-                            roomMembers: [message.data.userName]
+                            roomMembers: [{
+                                name: message.data.userName,
+                                cursorLine: 0,
+                                cursorChar: 0,
+                            }]
                         })
                         await room.save();
 
@@ -170,9 +176,13 @@ wss.on('connection', (ws) => {
                     const room = await Room.findOne({roomId: message.data.roomId}).exec()
                     const member = await User.findOne({userName: message.data.userName}).exec()
 
-                    if (room != null && member != null){   
-                        if(!room.roomMembers.includes(message.data.userName)){
-                            room.roomMembers.push(message.data.userName);
+                    if (room != null && member != null) {
+                        if(!room.roomMembers.some(roomMember => roomMember.name === message.data.userName)) {
+                            room.roomMembers.push({
+                                name: message.data.userName,
+                                cursorLine: 0,
+                                cursorChar: 0,
+                            });
                             await room.save();
 
                             if (!member.userRoomIds.includes(message.data.roomId)){
@@ -224,7 +234,7 @@ wss.on('connection', (ws) => {
             case 'edit-content':
                 try {
                     const room = await Room.findOne({roomId: message.data.roomId}).exec()
-                    if (room!= null ) {
+                    if (room != null ) {
                         if(!room.roomMembers.includes(message.data.userName)){
                             ws.send(JSON.stringify({
                                 type: 'deny edit-content',

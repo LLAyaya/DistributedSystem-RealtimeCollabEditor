@@ -5,10 +5,9 @@
   "userName": "Thong",
   "userPassword": "Thong",
   "userRoomIds": [
-    36088,
-    500857
+    4
   ],
-  "__v": 2
+  "__v": 1
 },
 {
   "_id": {
@@ -17,32 +16,22 @@
   "userName": "Quan",
   "userPassword": "1231231",
   "userRoomIds": [
-    36088,
-    500857,
-    563670
+    123,
+    1
   ],
-  "__v": 5
+  "__v": 1
 },
 {
   "_id": {
-    "$oid": "6658279f58295b146a2fefac"
-  },
-  "userName": "TuilaBIBI",
-  "userPassword": "weiwaiweiwai",
-  "userRoomIds": [
-    36088
-  ],
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "6659fa997f082de1bca4aac1"
+    "$oid": "6659e71db6177bd4642b92d5"
   },
   "userName": "MynameisTraSua",
   "userPassword": "TraSuaMuonNam",
   "userRoomIds": [
-    36088,
-    563670
+    1,
+    2,
+    4,
+    123
   ],
-  "__v": 2
+  "__v": 0
 }]

@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const Room = require('../models/RoomSchema')
+const Room = require('../models/RoomSchema').default
 
 // Get all 
 router.get('/', async (req, res) => {

@@ -10,32 +10,29 @@ const Home = ({clientControllerRef}) => {
 
     useEffect(() => {
         clientControllerRef.current.onMessageType('accept sign-up', (data) => {
-            console.log('throw toast notification pls: ', data.data)
             toast.success('Successfully sign-up')
         })
     
         clientControllerRef.current.onMessageType('deny sign-up', (data) => {
-            toast.error('Sign-up failed')
-            console.log('throw toast notification pls: ', data.data)
+            toast.error('Sign-up failed', data.data)
             
         }) 
 
         clientControllerRef.current.onMessageType('accept log-in', (data) => {
             toast.success('Successfully log-in')
             setTimeout(() => {
-                console.log('throw toast notification pls: ', data.data)
                 navigate('/editor', {
                     state: {
                         userName: data.data.userName,
                         roomsDetail: data.data.roomDetail
                     }
                 });
+                console.log(data.data.roomDetail)
             }, 1000)
         })
 
         clientControllerRef.current.onMessageType('deny log-in', (data) => {
-            toast.error('Log-in failed')
-            console.log('throw toast notification pls: ', data.data)
+            toast.error('Log-in failed', data.data)
         })
 
         clientControllerRef.current.onMessageType('accept create-room', (data) =>{

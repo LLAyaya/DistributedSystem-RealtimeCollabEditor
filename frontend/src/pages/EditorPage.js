@@ -34,10 +34,9 @@ const EditorPage = ({clientControllerRef}) => {
     };
     
     const openRoom = (roomDetail) => {
-        console.log('Room'+roomDetail)
         setSelectedRoomDetail(roomDetail);
         console.log(roomDetail)
-        setIsRoomSelected(!!roomDetail);
+        setIsRoomSelected(true);
 
     };
 
@@ -84,7 +83,7 @@ const EditorPage = ({clientControllerRef}) => {
             roomId: roomId,
             roomName: `Room ${roomId}`, 
             content: '', 
-            roomMembers: [userName] 
+            roomMembers: [ {name: userName, cursorLine: 0, cursorChar: 0} ] 
         };
     
         // Update the roomsDetail array
@@ -360,11 +359,11 @@ const EditorPage = ({clientControllerRef}) => {
                     <h3>Members</h3>
 
                     <div className="roomsList">
-                        {console.log('yo', selectedRoomDetail.roomMembers)}
-                        {selectedRoomDetail.roomMembers.map((memberName) => (
+                        {console.log(selectedRoomDetail)}
+                        {selectedRoomDetail.roomMembers.map((member) => (
                             <Member
-                                key={memberName}
-                                memberName = {memberName}
+                                key={member.name}
+                                memberName = {member.name}
                             />
                         ))}
                     </div>
