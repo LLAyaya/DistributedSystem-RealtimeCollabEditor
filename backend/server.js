@@ -293,32 +293,6 @@ wss.on('connection', (ws) => {
                                 }
                                 break
 
-                        
-                        // switch (message.data.operation) {
-                        //     case 'add':
-                        //         // console.log(`Adding content: '${message.data.content}'`);
-                        //         room.content += message.data.content; 
-                        //         // console.log(`Updated content after add: '${room.content}'`);
-                        //         break
-                        //     case 'delete': 
-                        //         if (message.data.content != null) {
-                        //             // Remove only the specified part of the content
-                        //             const index = room.content.indexOf(message.data.content);
-                        //             if (index > -1) {
-                        //                 room.content = room.content.substring(0, index) + room.content.substring(index + message.data.content.length);
-                        //             } else {
-                        //                 ws.send(JSON.stringify({
-                        //                     type: 'deny',
-                        //                     data: 'Specified content not found'
-                        //                 }, null, 4))
-                        //                 return
-                        //             }
-                        //         } else {
-                        //             room.content = "";
-                        //         }
-                        //         break
-
-
                             case 'update':
                                 room.content = message.data.content;
                                 break
