@@ -1,7 +1,7 @@
 require('dotenv').config()
 const express = require('express')
 const app = express()
-const server = app.listen(5000, () => console.log('Server Started'))
+const server = app.listen(5000, '0.0.0.0', () => console.log('Server Started'))
 
 // Setting up mongoose
 const mongoose = require('mongoose')
