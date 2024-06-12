@@ -23,7 +23,7 @@ body {
     align-items: center;
     justify-content: center;
     color: #fff;
-    background-color: #36454F;
+    background-color: #FF6969;
     height: 100vh;
 }
 
@@ -69,7 +69,7 @@ footer a {
     outline: none;
     border: none;
     margin-bottom: 14px;
-    background: #eee;
+    background: #FFF5E1;
     font-size: 16px;
     font-weight: bold;
 }

@@ -191,9 +191,9 @@ import 'codemirror/mode/yacas/yacas';
 import 'codemirror/mode/yaml/yaml';
 import 'codemirror/mode/z80/z80';
 
-const Editor = ({clientControllerRef, roomsDetail, selectedRoomDetail, selectedRoomContent, userName, lang, theme}) => {
-    const cursorRef = useRef({line: 0, ch: 0})
-    const codeMirrorRef = useRef(null)
+const Editor = ({ clientControllerRef, selectedRoomDetail, selectedRoomContent, userName, lang, theme }) => {
+    const cursorRef = useRef({ line: 0, ch: 0 });
+    const codeMirrorRef = useRef(null);
 
     useEffect(() => {
         codeMirrorRef.current = CodeMirror.fromTextArea(
@@ -202,54 +202,49 @@ const Editor = ({clientControllerRef, roomsDetail, selectedRoomDetail, selectedR
             theme: theme,
             lineNumbers: true,
             readOnly: false,
-        })
+        });
+
+        codeMirrorRef.current.on('change', (instance, changes) => {
+            const { origin } = changes;
+            const content = instance.getValue();
+
+            switch (origin) {
+                case '+delete':
+                    clientControllerRef.current.editContent(selectedRoomDetail.roomId, userName, 'delete', '',
+                        cursorRef.current.line, cursorRef.current.ch);
+                    break;
+                case '+input':
+                    const char = changes.text.length === 1 ? changes.text[0] : '\n';
+                    clientControllerRef.current.editContent(selectedRoomDetail.roomId, userName, 'add', char,
+                        cursorRef.current.line, cursorRef.current.ch);
+                    break;
+                case 'setValue':
+                    break;
+                default:
+                    console.log('unsupported input type:', origin);
+                    break;
+            }
+
+            if (origin !== 'setValue') {
+                cursorRef.current = codeMirrorRef.current.getCursor();
+            }
+        });
+
 
         if (selectedRoomDetail) {
-            codeMirrorRef.current.setValue(selectedRoomDetail.content)
-
-            codeMirrorRef.current.on('change', (instance, changes) => {
-                const {origin} = changes
-                const content = instance.getValue()
-
-                switch (origin) {
-                    case '+delete':
-                        // console.log('delete')
-                        clientControllerRef.current.editContent(selectedRoomDetail.roomId, userName, 'delete', '',
-                                cursorRef.current.line, cursorRef.current.ch)
-                        break
-                    case '+input':
-                        const char = changes.text.length === 1 ? changes.text[0] : '\n'
-                        clientControllerRef.current.editContent(selectedRoomDetail.roomId, userName, 'add', char,
-                                cursorRef.current.line, cursorRef.current.ch)
-                        break
-                    case 'setValue':
-                        break
-                    default:
-                        console.log('unsupported input type:', origin)
-                        break
-                }
-
-                if (origin !== 'setValue') {
-                    // clientControllerRef.current.editContent(selectedRoomDetail.roomId, userName, 'update', content)
-                    cursorRef.current = codeMirrorRef.current.getCursor()
-                }
-            })
-
-            // codeMirrorRef.current.on('cursorActivity', (instance) => {
-                // console.log('move')
-            // })
+            codeMirrorRef.current.setValue(selectedRoomDetail.content || 'Choose a room and start editing\nAlternatively, join or create a room to get started');
+        } else {
+            codeMirrorRef.current.setValue('Choose a room and start editing\nAlternatively, join or create a room to get started');
         }
-        else {
-            codeMirrorRef.current.setValue('Choose a room and start editing\nAlternatively, join or create a room to get started')
-        }  
 
-    }, [clientControllerRef, selectedRoomDetail, userName, lang, theme])
-    
+    }, [clientControllerRef, selectedRoomDetail, userName]);
+
     useEffect(() => {
-        codeMirrorRef.current.setValue(selectedRoomContent)
-        codeMirrorRef.current.setCursor(cursorRef.current)
-        
-    }, [selectedRoomContent])
+        if (codeMirrorRef.current) {
+            codeMirrorRef.current.setOption('theme', theme);
+        }
+    }, [theme]);
+
     useEffect(() => {
         if (codeMirrorRef.current) {
             codeMirrorRef.current.setOption('mode', lang);
@@ -258,13 +253,14 @@ const Editor = ({clientControllerRef, roomsDetail, selectedRoomDetail, selectedR
 
     useEffect(() => {
         if (codeMirrorRef.current) {
-            codeMirrorRef.current.setOption('theme', theme);
+            codeMirrorRef.current.setValue(selectedRoomContent);
+            codeMirrorRef.current.setCursor(cursorRef.current);
         }
-    }, [theme]);
+    }, [selectedRoomContent]);
 
     return (
         <textarea id="realtimeEditor"></textarea>
     );
-}
+};
 
-export default Editor
+export default Editor;
