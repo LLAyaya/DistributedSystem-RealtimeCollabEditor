@@ -12,7 +12,7 @@ const EditorPage = ({clientControllerRef}) => {
     const [theme, setTheme] = useState('material')
     const [userName, setUserName] = useState('');
     const roomsDetail = useRef([]);
-    const [selectedRoomDetail, setSelectedRoomDetail] = useState();
+    const [selectedRoomDetail, setSelectedRoomDetail] = useState(null);
     const [selectedRoomContent, setSelectedRoomContent] = useState('');
     const [isRoomSelected, setIsRoomSelected] = useState(false); 
     const [buttonPopup, setButtonPopup] = useState(false);
@@ -56,7 +56,6 @@ const EditorPage = ({clientControllerRef}) => {
         roomsDetail.current = roomsDetail.current.map(room => 
             room.roomId === newRoomDetail.roomId ? newRoomDetail : room
         );
-        
         if (!roomsDetail.current.find(room => room.roomId === newRoomDetail.roomId)) {
             roomsDetail.current.push(newRoomDetail);
         }
@@ -69,6 +68,7 @@ const EditorPage = ({clientControllerRef}) => {
             if (roomDetail.roomId === roomId) {
                 roomDetail.content = content;
             }
+            console.log(selectedRoomDetail)
             if (selectedRoomDetail !== null) {
                 if (selectedRoomDetail.roomId === roomId) {
                     setSelectedRoomContent(content);
