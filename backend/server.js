@@ -250,7 +250,8 @@ wss.on('connection', (ws) => {
                         switch (message.data.operation) {
                             case 'add':
                                 if (char === '\n') {
-                                    room.content = extractedLines.join('\n') + '\n'
+                                    extractedLines[line] = extractedLines[line] + '\n'
+                                    room.content = extractedLines.join('\n')
                                 }
                                 else if (line < extractedLines.length) {
                                     const targetLine = extractedLines[line]
