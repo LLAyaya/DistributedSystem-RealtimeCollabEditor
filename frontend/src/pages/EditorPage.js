@@ -69,8 +69,10 @@ const EditorPage = ({clientControllerRef}) => {
             if (roomDetail.roomId === roomId) {
                 roomDetail.content = content;
             }
-            if (selectedRoomDetail.roomId === roomId) {
-                setSelectedRoomContent(content);
+            if (selectedRoomDetail !== null) {
+                if (selectedRoomDetail.roomId === roomId) {
+                    setSelectedRoomContent(content);
+                }
             }
         });
     };
